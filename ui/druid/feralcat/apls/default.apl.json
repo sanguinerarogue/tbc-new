@@ -1,4 +1,7 @@
 {
 	"type": "TypeAPL",
-	"priorityList": []
+	"prepullActions": [
+	],
+	"priorityList": [
+	]
 }
