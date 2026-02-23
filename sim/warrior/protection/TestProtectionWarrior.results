@@ -245,6 +245,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-TheTwinBladesofAzzinoth"
+ value: {
+  dps: 701.06744
+  tps: 1034.20982
+  dtps: 2190.3705
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-Thunderfury,BlessedBladeoftheWindseeker-19019"
  value: {
   dps: 631.22194

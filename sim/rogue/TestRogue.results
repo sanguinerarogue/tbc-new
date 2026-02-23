@@ -201,6 +201,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestRogue-AllItems-TheTwinBladesofAzzinoth"
+ value: {
+  dps: 2264.40986
+  tps: 1607.731
+ }
+}
+dps_results: {
  key: "TestRogue-AllItems-Thunderfury,BlessedBladeoftheWindseeker-19019"
  value: {
   dps: 2251.64332

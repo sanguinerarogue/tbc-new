@@ -113,6 +113,10 @@ dps_results: {
  value: {}
 }
 dps_results: {
+ key: "TestArcane-AllItems-TheTwinBladesofAzzinoth"
+ value: {}
+}
+dps_results: {
  key: "TestArcane-AllItems-Thunderfury,BlessedBladeoftheWindseeker-19019"
  value: {}
 }
