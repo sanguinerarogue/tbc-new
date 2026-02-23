@@ -15,7 +15,7 @@ import P1BISArcaneGear from './gear_sets/p1Arcane.gear.json';
 // keep them in a separate file.
 
 export const BLANK_APL = PresetUtils.makePresetAPLRotation('Blank', BlankAPL)
-export const PREBIS_ARCANE = PresetUtils.makePresetGear('PreBIS Arcane', PreBISArcaneGear);
+export const PREBIS_ARCANE = PresetUtils.makePresetGear('Arcane PreRaid - BIS', PreBISArcaneGear);
 export const P1_BIS_ARCANE = PresetUtils.makePresetGear('Arcane P1 - BIS', P1BISArcaneGear);
 //export const P2_BIS_ARCANE = PresetUtils.makePresetGear('Arcane P2 - BIS', P2BISArcaneGear);
 //export const P3_BIS_ARCANE = PresetUtils.makePresetGear('Arcane P3 - BIS', P3BISArcaneGear);
