@@ -411,8 +411,29 @@ func (warlock *Warlock) applyDemonicKnowledge() {
 	if warlock.Talents.DemonicKnowledge == 0 {
 		return
 	}
-	bonus := (0.04 * float64(warlock.Talents.DemonicKnowledge)) * (warlock.ActivePet.GetStat(stats.Stamina) + warlock.ActivePet.GetStat(stats.Intellect))
-	warlock.DemonicKnowledgeAura = warlock.NewTemporaryStatsAura("Demonic Knowledge", core.ActionID{SpellID: 35693}, stats.Stats{stats.SpellDamage: bonus}, core.NeverExpires).Aura
+	// bonus := (0.04 * float64(warlock.Talents.DemonicKnowledge)) * (warlock.ActivePet.GetStat(stats.Stamina) + warlock.ActivePet.GetStat(stats.Intellect))
+	// warlock.DemonicKnowledgeAura = warlock.NewTemporaryStatsAura("Demonic Knowledge", core.ActionID{SpellID: 35693}, stats.Stats{stats.SpellDamage: bonus}, core.NeverExpires).Aura
+	warlock.DemonicKnowledgeAura = warlock.RegisterAura(core.Aura{
+		Label:    "Demonic Knowledge",
+		Duration: core.NeverExpires,
+	})
+}
+
+func (warlock *Warlock) updateDemonicKnowledge(sim *core.Simulation) {
+	if warlock.DemonicKnowledgeBonus != 0 {
+		warlock.AddStatDynamic(sim, stats.SpellDamage, -warlock.DemonicKnowledgeBonus)
+	}
+
+	if warlock.ActivePet == nil {
+		warlock.DemonicKnowledgeBonus = 0
+		return
+	}
+
+	coeff := 0.04 * float64(warlock.Talents.DemonicKnowledge)
+	bonus := coeff * (warlock.ActivePet.GetStat(stats.Stamina) + warlock.ActivePet.GetStat(stats.Intellect))
+
+	warlock.DemonicKnowledgeBonus = bonus
+	warlock.AddStatDynamic(sim, stats.SpellDamage, bonus)
 }
 
 func (warlock *Warlock) applyDemonicTactics() {

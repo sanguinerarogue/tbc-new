@@ -9,8 +9,8 @@ import (
 const doomCoeff = 2
 
 func (warlock *Warlock) registerCurseOfDoom() {
-	warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 603},
+	warlock.CurseOfDoom = warlock.RegisterSpell(core.SpellConfig{
+		ActionID:       core.ActionID{SpellID: 30910},
 		SpellSchool:    core.SpellSchoolShadow,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
@@ -20,24 +20,38 @@ func (warlock *Warlock) registerCurseOfDoom() {
 			DefaultCast: core.Cast{
 				GCD: core.GCDDefault,
 			},
-			CD: core.Cooldown{Duration: time.Minute * 1},
+			CD: core.Cooldown{
+				Timer:    warlock.NewTimer(),
+				Duration: time.Second * 60,
+			},
 		},
 
-		DamageMultiplierAdditive: 1,
-		CritMultiplier:           warlock.DefaultSpellCritMultiplier(),
-		ThreatMultiplier:         1,
+		ThreatMultiplier: 1,
+		DamageMultiplier: 1,
+		BonusCoefficient: doomCoeff,
+		CritMultiplier:   1,
+
+		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+			result := spell.CalcOutcome(sim, target, spell.OutcomeMagicHit)
+			if result.Landed() {
+				spell.Dot(target).Apply(sim)
+			}
+			spell.DealOutcome(sim, result)
+		},
 
 		Dot: core.DotConfig{
 			Aura: core.Aura{
 				Label: "Doom",
+				Tag:   "Affliction",
 			},
-			NumberOfTicks:       4,
-			TickLength:          15 * time.Second,
-			AffectedByCastSpeed: true,
-			BonusCoefficient:    doomCoeff,
+			NumberOfTicks:            1,
+			TickLength:               1 * time.Minute,
+			AffectedByCastSpeed:      false,
+			BonusCoefficient:         doomCoeff,
+			PeriodicDamageMultiplier: 1,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				dot.Snapshot(target, 1000)
+				dot.Snapshot(target, 4200)
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				dot.CalcAndDealPeriodicSnapshotDamage(sim, target, dot.OutcomeTick)

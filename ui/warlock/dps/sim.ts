@@ -37,6 +37,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecWarlock, {
 
 	// All stats for which EP should be calculated.
 	epStats: [
+		Stat.StatStamina,
 		Stat.StatIntellect,
 		Stat.StatSpellDamage,
 		Stat.StatShadowDamage,
@@ -60,7 +61,11 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecWarlock, {
 			Stat.StatFireDamage,
 			Stat.StatMP5,
 		],
-		[PseudoStat.PseudoStatSpellHitPercent, PseudoStat.PseudoStatSpellCritPercent, PseudoStat.PseudoStatSpellHastePercent],
+		[
+			PseudoStat.PseudoStatSpellHitPercent,
+			PseudoStat.PseudoStatSpellCritPercent,
+			PseudoStat.PseudoStatSpellHastePercent
+		],
 	),
 	gemStats: DEFAULT_CASTER_GEM_STATS,
 
@@ -70,7 +75,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecWarlock, {
 		gear: Presets.BLANK_GEARSET.gear,
 
 		// Default EP weights for sorting gear in the gear picker.
-		epWeights: Presets.P1_EP_PRESET.epWeights,
+		epWeights: Presets.DEFAULT_EP.epWeights,
 		// Default consumes settings.
 		consumables: Presets.DefaultConsumables,
 
@@ -105,6 +110,9 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecWarlock, {
 	},
 
 	consumableStats: [
+		Stat.StatIntellect,
+		Stat.StatSpirit,
+		Stat.StatMP5,
 		Stat.StatSpellDamage,
 		Stat.StatSpellCritRating,
 		Stat.StatSpellHitRating,
@@ -136,12 +144,32 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecWarlock, {
 	presets: {
 		epWeights: [],
 		// Preset talents that the user can quickly select.
-		talents: [],
+		talents: [
+			Presets.Affliction,
+			Presets.DemoFelguard,
+			Presets.DemoRuin,
+			Presets.DestroNightfall,
+			Presets.Destruction
+		],
 		// Preset rotations that the user can quickly select.
-		rotations: [],
+		rotations: [
+			Presets.AfflictionAPL,
+			Presets.DemoAPL,
+			Presets.DestroAPL,
+			Presets.DestroFireAPL
+		],
 
 		// Preset gear configurations that the user can quickly select.
-		gear: [],
+		gear: [
+			Presets.PRE_RAID,
+			Presets.PRE_RAID_FIRE,
+			Presets.T4,
+			Presets.T4_FIRE,
+			Presets.T5,
+			Presets.T6,
+			Presets.ZA,
+			Presets.SWP
+		],
 		itemSwaps: [],
 	},
 

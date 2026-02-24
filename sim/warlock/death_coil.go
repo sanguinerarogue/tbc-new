@@ -6,18 +6,16 @@ import (
 	"github.com/wowsims/tbc/sim/core"
 )
 
-var shadowBurnCoeff = 0.429
+func (warlock *Warlock) registerDeathCoil() {
 
-func (warlock *Warlock) registerShadowBurn() {
-
-	warlock.Shadowburn = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 17877},
+	warlock.RegisterSpell(core.SpellConfig{
+		ActionID:       core.ActionID{SpellID: 27223},
 		SpellSchool:    core.SpellSchoolShadow,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagAPL,
-		ClassSpellMask: WarlockSpellShadowBurn,
+		ClassSpellMask: WarlockSpellDeathCoil,
 
-		ManaCost: core.ManaCostOptions{FlatCost: 515},
+		ManaCost: core.ManaCostOptions{FlatCost: 600},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				GCD: core.GCDDefault,
@@ -31,12 +29,10 @@ func (warlock *Warlock) registerShadowBurn() {
 		DamageMultiplier: 1,
 		CritMultiplier:   warlock.DefaultSpellCritMultiplier(),
 		ThreatMultiplier: 1,
-		BonusCoefficient: shadowBurnCoeff,
+		BonusCoefficient: 0.214,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			dmgRoll := warlock.CalcAndRollDamageRange(sim, 597, 665)
-			spell.CalcAndDealDamage(sim, target, dmgRoll, spell.OutcomeMagicHitAndCrit)
-
+			spell.CalcAndDealDamage(sim, target, 526, spell.OutcomeMagicHitAndCrit)
 		},
 	})
 }

@@ -116,16 +116,20 @@ func (warlock *Warlock) makePet(
 		warlock.ActivePet = pet
 		pet.OnPetEnable = func(sim *core.Simulation) {
 			if warlock.Talents.DemonicKnowledge > 0 {
-				if warlock.DemonicKnowledgeAura.IsActive() {
-					warlock.DemonicKnowledgeAura.Deactivate(sim)
-				}
 				warlock.DemonicKnowledgeAura.Activate(sim)
+				warlock.updateDemonicKnowledge(sim)
 			}
 			if warlock.Talents.MasterDemonologist > 0 {
 				if warlock.MasterDemonologistAura.IsActive() {
 					warlock.MasterDemonologistAura.Deactivate(sim)
 				}
 				warlock.MasterDemonologistAura.Activate(sim)
+			}
+		}
+		pet.OnPetDisable = func(sim *core.Simulation) {
+			if warlock.Talents.DemonicKnowledge > 0 {
+				warlock.updateDemonicKnowledge(sim)
+				warlock.DemonicKnowledgeAura.Deactivate(sim)
 			}
 		}
 		warlock.RegisterResetEffect(func(sim *core.Simulation) {

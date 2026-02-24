@@ -108,6 +108,7 @@ import {
 	APLValueActionGroupUsed,
 	APLValueAutoSwingTime,
 	APLValueAutoTimeSinceLast,
+	APLValueWarlockAssignedCurseIsActive,
 } from '../../proto/apl.js';
 import { Class, Spec } from '../../proto/common.js';
 import { ShamanTotems_TotemType as TotemType } from '../../proto/shaman.js';
@@ -1473,6 +1474,14 @@ const valueKindFactories: { [f in ValidAPLValueKind]: ValueKindConfig<APLValueIm
 		submenu: ['warlock'],
 		shortDescription: i18n.t('rotation_tab.apl.values.warlock_hand_of_guldan_in_flight.tooltip'),
 		newValue: APLValueWarlockHandOfGuldanInFlight.create,
+		includeIf: (player: Player<any>, _isPrepull: boolean) => player.getSpec() == Spec.SpecWarlock,
+		fields: [],
+	}),
+	warlockAssignedCurseIsActive: inputBuilder({
+		label: i18n.t('rotation_tab.apl.values.warlock_assigned_curse_is_active.label'),
+		submenu: ['warlock'],
+		shortDescription: i18n.t('rotation_tab.apl.values.warlock_assigned_curse_is_active.tooltip'),
+		newValue: APLValueWarlockAssignedCurseIsActive.create,
 		includeIf: (player: Player<any>, _isPrepull: boolean) => player.getSpec() == Spec.SpecWarlock,
 		fields: [],
 	}),

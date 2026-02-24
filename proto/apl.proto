@@ -6,6 +6,7 @@ option go_package = "./proto";
 import "common.proto";
 import "shaman.proto";
 import "druid.proto";
+import "warlock.proto";
 
 // Rotation options are based heavily on APL. See https://github.com/simulationcraft/simc/wiki/ActionLists.
 
@@ -34,19 +35,19 @@ message SimpleRotation {
 message APLPrepullAction {
     APLAction action = 1;
     APLValue do_at_value = 4; // When to perform this prepull action. Should be a negative value.
-    bool hide = 3;            // Causes this item to be ignored.
+    bool hide = 3; // Causes this item to be ignored.
 }
 
 message APLListItem {
-    bool hide = 1;        // Causes this item to be ignored.
-    string notes = 2;     // Comments for the reader.
+    bool hide = 1; // Causes this item to be ignored.
+    string notes = 2; // Comments for the reader.
     APLAction action = 3; // The action to be performed.
 }
 
 message APLGroup {
-	string name = 1;                    // Name of the group (e.g., "careful_aim")
-	repeated APLListItem actions = 2;   // Actions in this group
-	repeated APLValueVariable variables = 3;  // Variables that can be used in this group
+	string name = 1; // Name of the group (e.g., "careful_aim")
+	repeated APLListItem actions = 2; // Actions in this group
+	repeated APLValueVariable variables = 3; // Variables that can be used in this group
 }
 
 // NextIndex: 29
@@ -94,11 +95,13 @@ message APLAction {
 
         // Group reference
         APLActionGroupReference group_reference = 28;
+
+		APLActionCastWarlockAssignedCurse cast_warlock_assigned_curse = 29;
     }
 }
 
 
-// NextIndex: 128
+// NextIndex: 129
 message APLValue {
 	UUID uuid = 85;
 
@@ -227,6 +230,7 @@ message APLValue {
         APLValueCatExcessEnergy cat_excess_energy = 52;
         APLValueCatNewSavageRoarDuration cat_new_savage_roar_duration = 61;
         APLValueWarlockHandOfGuldanInFlight warlock_hand_of_guldan_in_flight = 59;
+		APLValueWarlockAssignedCurseIsActive warlock_assigned_curse_is_active = 128;
         APLValueCurrentEclipsePhase druid_current_eclipse_phase = 70;
         APLValueShamanFireElementalDuration shaman_fire_elemental_duration = 83;
 		APLValueProtectionPaladinDamageTakenLastGlobal protection_paladin_damage_taken_last_global = 100;
@@ -401,6 +405,9 @@ message APLActionMoveDuration {
 }
 
 message APLActionCustomRotation {
+}
+
+message APLActionCastWarlockAssignedCurse{
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -760,6 +767,7 @@ message APLValueTotemRemainingTime {
 message APLValueCatExcessEnergy {}
 message APLValueCatNewSavageRoarDuration {}
 message APLValueWarlockHandOfGuldanInFlight {}
+message APLValueWarlockAssignedCurseIsActive {}
 message APLValueAfflictionCurrentSnapshot {
 	ActionID spell_id = 1;
 	UnitReference target_unit = 2;
@@ -779,8 +787,8 @@ message APLValueDotPercentIncrease {
 }
 
 message APLActionGroupReference {
-	string group_name = 1;                    // Name of the group to reference
-	repeated APLValueVariable variables = 2;  // Variables to set for this group reference
+	string group_name = 1; // Name of the group to reference
+	repeated APLValueVariable variables = 2; // Variables to set for this group reference
 }
 
 message APLValueVariable {

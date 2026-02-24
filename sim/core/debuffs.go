@@ -16,7 +16,11 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 	}
 
 	if debuffs.CurseOfElements != proto.TristateEffect_TristateEffectMissing {
-		MakePermanent(CurseOfElementsAura(target, IsImproved(debuffs.CurseOfElements)))
+		ranks := int32(0)
+		if IsImproved(debuffs.CurseOfElements) {
+			ranks = 3
+		}
+		MakePermanent(CurseOfElementsAura(target, ranks))
 	}
 
 	if debuffs.CurseOfRecklessness {
@@ -156,11 +160,8 @@ func BloodFrenzyAura(target *Unit, points int32) *Aura {
 }
 
 // Damage Taken Debuffs
-func CurseOfElementsAura(target *Unit, improved bool) *Aura {
-	multiplier := 1.10
-	if improved {
-		multiplier += 0.03
-	}
+func CurseOfElementsAura(target *Unit, ranks int32) *Aura {
+	multiplier := 1.10 + 0.03*float64(ranks)
 
 	return damageTakenDebuff(target, "Curse of Elements", 27228,
 		[]stats.SchoolIndex{

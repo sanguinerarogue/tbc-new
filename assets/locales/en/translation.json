@@ -1514,6 +1514,10 @@
 					"label": "Hand of Guldan in Flight",
 					"tooltip": "Returns <b>True</b> if the impact of Hand of Guldan currenty is in flight."
 				},
+				"warlock_assigned_curse_is_active": {
+					"label": "Assigned Curse Is Active",
+					"tooltip": "Returns true is assigned curse is active on target"
+				},
 				"affliction_current_snapshot": {
 					"label": "Existing Raw Snapshot %",
 					"tooltip": "How much stronger your existing snapshot is relative to baseline. Ignores Haste and Crit. Not recommended to use unless you know what you're doing."

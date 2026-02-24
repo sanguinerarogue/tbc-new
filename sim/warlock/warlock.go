@@ -27,12 +27,13 @@ type Warlock struct {
 	LifeTap *core.Spell
 
 	// Curses
-	CurseOfAgony         *core.Spell
-	CurseOfDoom          *core.Spell
-	CurseOfElements      *core.Spell
-	CurseOfElementsAuras core.AuraArray
-	CurseOfRecklessness  *core.Spell
-	CurseOfTongues       *core.Spell
+	CurseOfAgony            *core.Spell
+	CurseOfDoom             *core.Spell
+	CurseOfElements         *core.Spell
+	CurseOfElementsAura     *core.Aura
+	CurseOfRecklessness     *core.Spell
+	CurseOfRecklessnessAura *core.Aura
+	CurseOfTongues          *core.Spell
 
 	// Talent Tree Spells
 	AmplifyCurse       *core.Spell
@@ -62,6 +63,9 @@ type Warlock struct {
 	DemonArmor *core.Aura
 
 	serviceTimer *core.Timer
+
+	DemonicKnowledgeDep   *stats.StatDependency
+	DemonicKnowledgeBonus float64
 }
 
 func (warlock *Warlock) GetCharacter() *core.Character {
@@ -101,8 +105,11 @@ func (warlock *Warlock) Initialize() {
 	warlock.registerCurseOfElements()
 	warlock.registerCurseOfDoom()
 	warlock.registerCurseOfAgony()
+	warlock.registerCurseOfRecklessness()
+	// warlock.CurseOfRecklessness = core.CurseOfRecklessnessAura(warlock.CurrentTarget)
 
 	warlock.registerCorruption()
+	warlock.registerDeathCoil()
 	warlock.registerSeed()
 	warlock.registerDrainLife()
 	warlock.registerHellfire()
@@ -208,7 +215,7 @@ const (
 	WarlockSpellSiphonLife
 	WarlockSpellDrainSoul
 	WarlockSpellShadowFury
-	WarlockSpellShadowbolt2
+	WarlockSpellDeathCoil
 	WarlockSpellAll int64 = 1<<iota - 1
 
 	WarlockShadowDamage = WarlockSpellCorruption | WarlockSpellUnstableAffliction | WarlockSpellDrainLife | WarlockSpellCurseOfAgony |
@@ -240,7 +247,7 @@ const (
 
 	WarlockAfflictionSpells = WarlockSpellCorruption | WarlockSpellCurseOfAgony | WarlockSpellCurseOfDoom | WarlockSpellCurseOfRecklessness | WarlockSpellCurseOfElements |
 		WarlockSpellCurseOfTongues | WarlockSpellCurseOfWeakness | WarlockSpellDrainLife |
-		WarlockSpellSeedOfCorruption
+		WarlockSpellSeedOfCorruption | WarlockSpellDeathCoil
 
 	WarlockDemonologySpells = WarlockAllSummons
 

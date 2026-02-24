@@ -1,27 +1,24 @@
 package warlock
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/core"
 )
 
-func (warlock *Warlock) registerCurseOfElements() {
-	warlock.CurseOfElementsAura = core.CurseOfElementsAura(warlock.CurrentTarget, warlock.Talents.Malediction)
-	warlock.CurseOfElements = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       core.ActionID{SpellID: 27228},
+func (warlock *Warlock) registerCurseOfRecklessness() {
+	warlock.CurseOfRecklessnessAura = core.CurseOfRecklessnessAura(warlock.CurrentTarget)
+	warlock.CurseOfRecklessness = warlock.RegisterSpell(core.SpellConfig{
+		ActionID:       core.ActionID{SpellID: 27226},
 		SpellSchool:    core.SpellSchoolShadow,
 		ProcMask:       core.ProcMaskEmpty,
 		Flags:          core.SpellFlagAPL,
-		ClassSpellMask: WarlockSpellCurseOfElements,
+		ClassSpellMask: WarlockSpellCurseOfRecklessness,
 
 		ManaCost: core.ManaCostOptions{
-			FlatCost: 260,
+			FlatCost: 160,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCDMin: time.Millisecond * 500,
-				GCD:    core.GCDMin,
+				GCD: core.GCDDefault,
 			},
 		},
 
@@ -30,7 +27,7 @@ func (warlock *Warlock) registerCurseOfElements() {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			result := spell.CalcOutcome(sim, target, spell.OutcomeMagicHit)
 			if result.Landed() {
-				warlock.CurseOfElementsAura.Activate(sim)
+				warlock.CurseOfRecklessnessAura.Activate(sim)
 			}
 
 			spell.DealOutcome(sim, result)

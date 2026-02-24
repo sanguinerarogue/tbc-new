@@ -6250,6 +6250,22 @@
                     "tooltip"
                   ]
                 },
+				"warlock_assigned_curse_is_active": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string"
+                    },
+                    "tooltip": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "label",
+                    "tooltip"
+                  ]
+                },
                 "affliction_current_snapshot": {
                   "type": "object",
                   "properties": {
@@ -6506,6 +6522,7 @@
                 "cat_excess_energy",
                 "cat_new_savage_roar_duration",
                 "warlock_hand_of_guldan_in_flight",
+				"warlock_assigned_curse",
                 "affliction_current_snapshot",
                 "protection_paladin_damage_taken_last_global",
                 "aura_remaining_icd",
