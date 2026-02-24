@@ -42,7 +42,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecMage, {
 			Stat.StatFireDamage,
 			Stat.StatArcaneDamage,
 		],
-		[PseudoStat.PseudoStatSpellHitPercent, PseudoStat.PseudoStatSpellCritPercent, PseudoStat.PseudoStatSpellHastePercent],
+		[PseudoStat.PseudoStatSpellHitPercent, PseudoStat.PseudoStatSpellCritPercent, PseudoStat.PseudoStatSpellHastePercent, PseudoStat.PseudoStatSchoolHitArcane],
 	),
 	gemStats: DEFAULT_CASTER_GEM_STATS,
 
@@ -84,11 +84,11 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecMage, {
 	presets: {
 		epWeights: [],
 		// Preset rotations that the user can quickly select.
-		rotations: [],
+		rotations: [Presets.ROTATION_PRESET_ARCANE],
 		// Preset talents that the user can quickly select.
-		talents: [],
+		talents: [Presets.ARCANE_TALENTS],
 		// Preset gear configurations that the user can quickly select.
-		gear: [],
+		gear: [Presets.PREBIS_ARCANE, Presets.P1_BIS_ARCANE],
 
 		builds: [],
 	},
