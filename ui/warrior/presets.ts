@@ -46,6 +46,7 @@ export const DefaultConsumables = ConsumesSpec.create({
 	conjuredId: 5512,
 	explosiveId: 30217,
 	superSapper: true,
+	goblinSapper: true,
 	ohImbueId: 29453,
 	drumsId: 351355,
 	scrollAgi: true,

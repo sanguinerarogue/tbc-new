@@ -163,7 +163,7 @@ export const SupWizardOil = {
 export const AdamantiteSharpeningMH = {
 	actionId: ActionId.fromItemId(23529),
 	value: 29453,
-	showWhen: (player: Player<any>) => !player.getGear().hasBluntMHWeapon(),
+	showWhen: (player: Player<any>) => player.getGear().hasSharpMHWeapon(),
 };
 export const AdamantiteWeightMH = {
 	actionId: ActionId.fromItemId(28421),
@@ -173,7 +173,7 @@ export const AdamantiteWeightMH = {
 export const AdamantiteSharpeningOH = {
 	actionId: ActionId.fromItemId(23529),
 	value: 29453,
-	showWhen: (player: Player<any>) => !player.getGear().hasBluntOHWeapon(),
+	showWhen: (player: Player<any>) => player.getGear().hasSharpOHWeapon(),
 };
 export const AdamantiteWeightOH = {
 	actionId: ActionId.fromItemId(28421),
@@ -255,7 +255,7 @@ export const makeMHImbueInput = makeConsumeInputFactory({
 	showWhen: (player: Player<any>) => !player.getParty() || player.getParty()!.getBuffs().windfuryTotem == 0,
 	changedEvent: (player: Player<any>) => TypedEvent.onAny([player.getParty()!.changeEmitter]),
 });
-export const makeOHImbueinput = makeConsumeInputFactory({
+export const makeOHImbueInput = makeConsumeInputFactory({
 	consumesFieldName: 'ohImbueId',
 	showWhen: (player: Player<any>) => player.getGear().getEquippedItem(ItemSlot.ItemSlotOffHand)?.item.weaponSpeed !== undefined,
 });

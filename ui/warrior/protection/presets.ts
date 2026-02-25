@@ -1,5 +1,6 @@
+import { OtherDefaults as SimUIOtherDefaults } from '../../core/individual_sim_ui';
 import * as PresetUtils from '../../core/preset_utils.js';
-import { ConsumesSpec, Profession, PseudoStat, Stat } from '../../core/proto/common.js';
+import { ConsumesSpec, HealingModel, Profession, PseudoStat, Stat } from '../../core/proto/common.js';
 import { SavedTalents } from '../../core/proto/ui.js';
 import { ProtectionWarrior_Options as ProtectionWarriorOptions, WarriorShout, WarriorStance } from '../../core/proto/warrior.js';
 import { Stats } from '../../core/proto_utils/stats';
@@ -70,10 +71,18 @@ export const DefaultConsumables = ConsumesSpec.create({
 	scrollArm: true,
 });
 
-export const OtherDefaults = {
+export const OtherDefaults: Partial<SimUIOtherDefaults> = {
 	profession1: Profession.Engineering,
 	profession2: Profession.Blacksmithing,
 	distanceFromTarget: 0,
+	healingModel: HealingModel.create({
+		hps: 2200,
+		cadenceSeconds: 0.4,
+		cadenceVariation: 1.2,
+		absorbFrac: 0.02,
+		burstWindow: 6,
+		inspirationUptime: 0.25,
+	}),
 };
 
 export const P1_PRESET_BUILD = PresetUtils.makePresetBuild('P1', {
