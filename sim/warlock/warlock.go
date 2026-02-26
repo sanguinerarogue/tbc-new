@@ -38,6 +38,7 @@ type Warlock struct {
 	AmplifyCurse       *core.Spell
 	Conflagrate        *core.Spell
 	Shadowburn         *core.Spell
+	Shadowfury         *core.Spell
 	SiphonLife         *core.Spell
 	UnstableAffliction *core.Spell
 
@@ -105,7 +106,6 @@ func (warlock *Warlock) Initialize() {
 	warlock.registerCurseOfDoom()
 	warlock.registerCurseOfAgony()
 	warlock.registerCurseOfRecklessness()
-	// warlock.CurseOfRecklessness = core.CurseOfRecklessnessAura(warlock.CurrentTarget)
 
 	warlock.registerCorruption()
 	warlock.registerDeathCoil()
@@ -123,10 +123,6 @@ func (warlock *Warlock) Initialize() {
 	warlock.registerArmors()
 
 	warlock.PseudoStats.SelfHealingMultiplier = 1.0
-	// doomguardInfernalTimer := warlock.NewTimer()
-	// warlock.registerSummonDoomguard(doomguardInfernalTimer)
-	// warlock.registerSummonInfernal(doomguardInfernalTimer)
-
 }
 
 func (warlock *Warlock) AddRaidBuffs(raidBuffs *proto.RaidBuffs) {
@@ -163,31 +159,12 @@ func (warlock *Warlock) AfflictionCount(target *core.Unit) float64 {
 	return float64(len(target.GetAurasWithTag("Affliction")))
 }
 
-func (w *Warlock) DeactivateOtherCurses(sim *core.Simulation, target *core.Unit, curse *core.Spell) {
+func (warlock *Warlock) DeactivateOtherCurses(sim *core.Simulation, target *core.Unit) {
 
-	if w.CurseOfAgony != nil && curse != w.CurseOfAgony {
-		if dot := w.CurseOfAgony.Dot(target); dot != nil {
-			if dot.IsActive() {
-				dot.Deactivate(sim)
-			}
-		}
-	}
-
-	if w.CurseOfDoom != nil && curse != w.CurseOfDoom {
-		if dot := w.CurseOfDoom.Dot(target); dot != nil {
-			if dot.IsActive() {
-				dot.Deactivate(sim)
-			}
-		}
-	}
-
-	if w.CurseOfElements != nil && curse != w.CurseOfElements {
-		w.CurseOfElementsAuras.Get(target).Deactivate(sim)
-	}
-
-	if w.CurseOfRecklessness != nil && curse != w.CurseOfRecklessness {
-		w.CurseOfRecklessnessAuras.Get(target).Deactivate(sim)
-	}
+	warlock.CurseOfAgony.Dot(target).Deactivate(sim)
+	warlock.CurseOfDoom.Dot(target).Deactivate(sim)
+	warlock.CurseOfElementsAuras.Get(target).Deactivate(sim)
+	warlock.CurseOfRecklessnessAuras.Get(target).Deactivate(sim)
 
 }
 

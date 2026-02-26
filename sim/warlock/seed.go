@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/wowsims/tbc/sim/core"
+	"github.com/wowsims/tbc/sim/core/stats"
 )
 
 const seedTickCoeff = 0.25
@@ -39,7 +40,8 @@ func (warlock *Warlock) registerSeed() {
 
 	trySeedPop := func(sim *core.Simulation, target *core.Unit, dmg float64) {
 		seedPropertyTracker[target.UnitIndex].damageTaken += dmg
-		if seedPropertyTracker[target.UnitIndex].damageTaken >= 1044 {
+		seedThreshold := 1044.0 + (warlock.GetStat(stats.SpellDamage) + warlock.GetStat(stats.ShadowDamage)*0.143)
+		if seedPropertyTracker[target.UnitIndex].damageTaken >= seedThreshold {
 			warlock.Seed.Dot(target).Deactivate(sim)
 			seedExplosion.Cast(sim, target)
 		}

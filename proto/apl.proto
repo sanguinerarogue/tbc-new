@@ -406,6 +406,7 @@ message APLActionCustomRotation {
 }
 
 message APLActionCastWarlockAssignedCurse{
+	UnitReference target = 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////

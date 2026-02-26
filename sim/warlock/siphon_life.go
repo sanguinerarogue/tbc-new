@@ -43,13 +43,13 @@ func (warlock *Warlock) registerSiphonLifeSpell() {
 				Label: "SiphonLife",
 				Tag:   "Affliction",
 			},
-			NumberOfTicks:       10,
+			NumberOfTicks:       6,
 			TickLength:          3 * time.Second,
 			AffectedByCastSpeed: false,
 			BonusCoefficient:    0.1,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				dot.Snapshot(target, 63)
+				dot.Snapshot(target, 140)
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				result := dot.CalcAndDealPeriodicSnapshotDamage(sim, target, dot.OutcomeTick)
@@ -67,7 +67,7 @@ func (warlock *Warlock) registerSiphonLifeSpell() {
 				result.Damage /= dot.TickPeriod().Seconds()
 				return result
 			} else {
-				result := spell.CalcPeriodicDamage(sim, target, 900, spell.OutcomeExpectedMagicCrit)
+				result := spell.CalcPeriodicDamage(sim, target, 840, spell.OutcomeExpectedMagicCrit)
 				result.Damage /= dot.CalcTickPeriod().Round(time.Millisecond).Seconds()
 				return result
 			}

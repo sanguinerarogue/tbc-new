@@ -65,6 +65,7 @@ func (warlock *Warlock) NewAPLAction(rot *core.APLRotation, config *proto.APLAct
 type APLActionCastWarlockAssignedCurse struct {
 	warlock    *Warlock
 	lastAction time.Duration
+	target     core.UnitReference
 }
 
 func (x *APLActionCastWarlockAssignedCurse) GetInnerActions() []*core.APLAction { return nil }
@@ -81,14 +82,15 @@ func (x *APLActionCastWarlockAssignedCurse) GetSpellFromAction(sim *core.Simulat
 	return x.warlock.GetAssignedCurse()
 }
 
-func (warlock *Warlock) newActionWarlockAssignedCurseAction(_ *core.APLRotation, _ *proto.APLActionCastWarlockAssignedCurse) core.APLActionImpl {
+func (warlock *Warlock) newActionWarlockAssignedCurseAction(rot *core.APLRotation, config *proto.APLActionCastWarlockAssignedCurse) core.APLActionImpl {
 	return &APLActionCastWarlockAssignedCurse{
 		warlock: warlock,
+		target:  rot.GetTargetUnit(config.Target),
 	}
 }
 
 func (x *APLActionCastWarlockAssignedCurse) Execute(sim *core.Simulation) {
-	x.GetSpellFromAction(sim).Cast(sim, x.warlock.CurrentTarget)
+	x.GetSpellFromAction(sim).Cast(sim, x.target.Get())
 }
 
 func (x *APLActionCastWarlockAssignedCurse) IsReady(sim *core.Simulation) bool {

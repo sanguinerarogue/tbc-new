@@ -10,7 +10,7 @@ var shadowFuryCoeff = 0.193
 
 func (warlock *Warlock) registerShadowfury() {
 
-	warlock.Shadowburn = warlock.RegisterSpell(core.SpellConfig{
+	warlock.Shadowfury = warlock.RegisterSpell(core.SpellConfig{
 		ActionID:       core.ActionID{SpellID: 30414},
 		SpellSchool:    core.SpellSchoolShadow,
 		ProcMask:       core.ProcMaskSpellDamage,

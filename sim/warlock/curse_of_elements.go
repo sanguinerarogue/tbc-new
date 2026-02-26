@@ -32,7 +32,7 @@ func (warlock *Warlock) registerCurseOfElements() {
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			result := spell.CalcOutcome(sim, target, spell.OutcomeMagicHit)
 			if result.Landed() {
-				warlock.DeactivateOtherCurses(sim, target, warlock.CurseOfElements)
+				warlock.DeactivateOtherCurses(sim, target)
 				warlock.CurseOfElementsAuras.Get(target).Activate(sim)
 			}
 
