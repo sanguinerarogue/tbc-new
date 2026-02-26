@@ -160,6 +160,10 @@ func (shaman *Shaman) ApplyTalents() {
 }
 
 func (shaman *Shaman) Reset(sim *core.Simulation) {
+	shaman.TotemExpirations[FireTotem] = -10 * time.Hour
+	shaman.TotemExpirations[AirTotem] = -10 * time.Hour
+	shaman.TotemExpirations[EarthTotem] = -10 * time.Hour
+	shaman.TotemExpirations[WaterTotem] = -10 * time.Hour
 }
 
 func (shaman *Shaman) OnEncounterStart(sim *core.Simulation) {
