@@ -82,7 +82,7 @@ export class ActionId {
 					name += ' (Sword Specialization)';
 				} else if (this.tag == 25584) {
 					name += ' (Windfury)';
-				}  else if (this.tag == 31332) {
+				} else if (this.tag == 31332) {
 					name += ' (Blinkstrike)';
 				} else if (this.tag == 17257) {
 					name += ' (Magtheridon)';
@@ -347,7 +347,7 @@ export class ActionId {
 			case 'Wound Poison':
 			case 'Instant Poison VII':
 				if (tag == 1) {
-					name += ' (Shiv)'
+					name += ' (Shiv)';
 				}
 				break;
 			case 'Shadow Blades':
@@ -565,8 +565,8 @@ export class ActionId {
 				}
 				break;
 			default:
-				if (tag===-1) {
-					name += ' (External)'
+				if (tag === -1) {
+					name += ' (External)';
 				} else if (tag) {
 					name += ' (??)';
 				}
@@ -915,5 +915,4 @@ export const resourceTypeToIcon: Record<ResourceType, string> = {
 };
 
 // Use this to connect a buff row to a cast row in the timeline view
-export const buffAuraToSpellIdMap: Record<number, ActionId> = {
-};
+export const buffAuraToSpellIdMap: Record<number, ActionId> = {};
