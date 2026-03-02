@@ -3991,9 +3991,7 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Sometimes heals bearer of 120 damage when damaging an enemy in melee and chance on ranged hit to restore
-	// 172 mana to the bearer.
-	// https://www.wowhead.com/tbc/spell=33504
+	// https://www.wowhead.com/tbc/spell=39599
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 	//	Callback:           core.CallbackEmpty,
 	//	ProcMask:           core.ProcMaskEmpty,
@@ -5380,8 +5378,8 @@ func RegisterAllProcs() {
 	//       This can be ignored if the effect has already been implemented.
 	//       With next db run the item will be removed if implemented.
 	//
-	// Increases damage dealt by your pet by 3%.
-	// https://www.wowhead.com/tbc/spell=27206
+	// Increases your pet's critical strike chance by 2%.
+	// https://www.wowhead.com/tbc/spell=27043
 	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
 	//	Callback:           core.CallbackEmpty,
 	//	ProcMask:           core.ProcMaskEmpty,
@@ -6217,21 +6215,6 @@ func RegisterAllProcs() {
 	//	RequireDamageDealt: false
 	// }, []shared.ItemVariant{
 	//	{ItemID: 32368, ItemName: "Tome of the Lightbringer"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
-	// When struck in combat has a 2% chance of increasing your Armor by 2000 for 10 secs.
-	// https://www.wowhead.com/tbc/spell=40408
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskEmpty,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 32375, ItemName: "Bulwark of Azzinoth"},
 	// })
 
 	// TODO: Manual implementation required
@@ -7326,22 +7309,6 @@ func RegisterAllProcs() {
 	// }, []shared.ItemVariant{
 	//	{ItemID: 34471, ItemName: "Vial of the Sunwell"},
 	//	{ItemID: 34471, ItemName: "Vial of the Sunwell"},
-	// })
-
-	// TODO: Manual implementation required
-	//       This can be ignored if the effect has already been implemented.
-	//       With next db run the item will be removed if implemented.
-	//
-	// Melee attacks which reduce you below 35% health cause you to gain 152 dodge rating for 10s. Cannot occur
-	// more than once every 30 sec.
-	// https://www.wowhead.com/tbc/spell=45058
-	// shared.NewProcStatBonusEffectWithVariants(shared.ProcStatBonusEffect{
-	//	Callback:           core.CallbackEmpty,
-	//	ProcMask:           core.ProcMaskEmpty,
-	//	Outcome:            core.OutcomeEmpty,
-	//	RequireDamageDealt: false
-	// }, []shared.ItemVariant{
-	//	{ItemID: 34473, ItemName: "Commendation of Kael'thas"},
 	// })
 
 	// TODO: Manual implementation required

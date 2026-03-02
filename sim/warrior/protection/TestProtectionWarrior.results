@@ -93,11 +93,27 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestProtectionWarrior-AllItems-BulwarkofAzzinoth-32375"
+ value: {
+  dps: 693.11881
+  tps: 1085.36993
+  dtps: 1216.22839
+ }
+}
+dps_results: {
  key: "TestProtectionWarrior-AllItems-BurningRage"
  value: {
   dps: 743.72686
   tps: 1157.67783
   dtps: 1531.30896
+ }
+}
+dps_results: {
+ key: "TestProtectionWarrior-AllItems-CommendationofKael'thas-34473"
+ value: {
+  dps: 675.52811
+  tps: 1058.77527
+  dtps: 1316.86499
  }
 }
 dps_results: {

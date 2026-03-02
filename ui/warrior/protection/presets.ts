@@ -7,6 +7,10 @@ import { Stats } from '../../core/proto_utils/stats';
 import * as WarriorPresets from '../presets';
 import GenericApl from './apls/default.apl.json';
 import P1BISGear from './gear_sets/p1_bis.gear.json';
+import P2BISGear from './gear_sets/p2_bis.gear.json';
+import P3BISGear from './gear_sets/p3_bis.gear.json';
+import P35BISGear from './gear_sets/p35_bis.gear.json';
+import P4BISGear from './gear_sets/p4_bis.gear.json';
 import PreraidBISGear from './gear_sets/preraid.gear.json';
 
 // Preset options for this spec.
@@ -15,6 +19,10 @@ import PreraidBISGear from './gear_sets/preraid.gear.json';
 
 export const PRERAID_BALANCED_PRESET = PresetUtils.makePresetGear('Pre-raid', PreraidBISGear);
 export const P1_PRESET = PresetUtils.makePresetGear('P1 - BIS', P1BISGear);
+export const P2_PRESET = PresetUtils.makePresetGear('P2 - BIS', P2BISGear);
+export const P3_PRESET = PresetUtils.makePresetGear('P3 - BIS', P3BISGear);
+export const P35_PRESET = PresetUtils.makePresetGear('P3.5 - BIS', P35BISGear);
+export const P4_PRESET = PresetUtils.makePresetGear('P4 - BIS', P4BISGear);
 
 export const ROTATION_DEFAULT = PresetUtils.makePresetAPLRotation('Generic', GenericApl);
 
@@ -28,7 +36,7 @@ export const P1_EP_PRESET = PresetUtils.makePresetEpWeights(
 			[Stat.StatStamina]: 1.15,
 			[Stat.StatAttackPower]: 0.25,
 			[Stat.StatMeleeHitRating]: 0.35,
-			[Stat.StatMeleeCritRating]: 0.50,
+			[Stat.StatMeleeCritRating]: 0.5,
 			[Stat.StatMeleeHasteRating]: 0.41,
 			[Stat.StatArmorPenetration]: 0.09,
 			[Stat.StatExpertiseRating]: 2.01,
