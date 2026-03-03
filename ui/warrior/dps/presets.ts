@@ -232,7 +232,7 @@ export const P2_PRESET_BUILD_FURY = PresetUtils.makePresetBuild('P2 - Fury', {
 		...P1_PLAYER_SETTINGS,
 		reforgeSettings: {
 			maxGemPhase: Phase.Phase2,
-		},
+		}
 	},
 });
 
