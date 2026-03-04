@@ -474,7 +474,7 @@ func JudgementOfWisdomAura(target *Unit) *Aura {
 				if unit.JowManaMetrics == nil {
 					unit.JowManaMetrics = unit.NewManaMetrics(actionId)
 				}
-				unit.AddMana(sim, 121.0, unit.JowManaMetrics)
+				unit.AddMana(sim, 74.0, unit.JowManaMetrics)
 			}
 
 			if spell.ActionID.SameAction(ActionID{SpellID: 35395}) {
