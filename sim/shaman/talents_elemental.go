@@ -249,8 +249,8 @@ func (shaman *Shaman) applyTotemOfWrath() {
 		ActionID: config.ActionID,
 		Duration: duration,
 	}).AttachStatsBuff(stats.Stats{
-		stats.SpellCritPercent:    value,
-		stats.PhysicalCritPercent: value,
+		stats.SpellCritPercent: value,
+		stats.SpellHitPercent:  value,
 	})
 	config.ApplyEffects = func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 		shaman.MagmaTotem.AOEDot().Deactivate(sim)
