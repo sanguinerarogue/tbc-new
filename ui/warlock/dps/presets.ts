@@ -162,6 +162,7 @@ export const DefaultDebuffs = Debuffs.create({
 	curseOfRecklessness: true,
 	improvedSealOfTheCrusader: true,
 	shadowEmbrace: true,
+	curseOfElements: TristateEffect.TristateEffectImproved,
 });
 
 export const P1_DEFAULT_SETTINGS: PresetUtils.PresetSettings = {
@@ -174,7 +175,25 @@ export const P1_DEFAULT_SETTINGS: PresetUtils.PresetSettings = {
 	debuffs: DefaultDebuffs,
 };
 
+export const P1_AFFLICTION_DEFAULT_SETTINGS: PresetUtils.PresetSettings = {
+	...P1_DEFAULT_SETTINGS,
+	name: 'Affliction',
+	specOptions: WarlockOptions.create({
+		...DefaultOptions,
+		classOptions: {
+			...DefaultOptions.classOptions,
+			curseOptions: WarlockOptions_CurseOptions.Elements,
+			summon: WarlockOptions_Summon.Imp,
+		},
+	}),
+	debuffs: Debuffs.create({
+		...DefaultDebuffs,
+		curseOfElements: TristateEffect.TristateEffectMissing,
+	}),
+};
+
 export const P1_FIRE_DEFAULT_SETTINGS: PresetUtils.PresetSettings = {
+	...P1_DEFAULT_SETTINGS,
 	name: 'Fire',
 	specOptions: WarlockOptions.create({
 		...DefaultOptions,
@@ -187,9 +206,6 @@ export const P1_FIRE_DEFAULT_SETTINGS: PresetUtils.PresetSettings = {
 		...DefaultConsumables,
 		conjuredId: 22788,
 	}),
-	buffs: DefaultIndividualBuffs,
-	partyBuffs: DefaultPartyBuffs,
-	raidBuffs: DefaultRaidBuffs,
 	debuffs: Debuffs.create({
 		...DefaultDebuffs,
 		improvedScorch: true,
@@ -201,7 +217,7 @@ export const AFFLICTION_BUILD = PresetUtils.makePresetBuild('Affliction', {
 	talents: TalentsAffliction,
 	epWeights: P1_AFFLI_DEMO_DESTRO_EP,
 	rotation: AfflictionAPL,
-	settings: P1_DEFAULT_SETTINGS,
+	settings: P1_AFFLICTION_DEFAULT_SETTINGS,
 });
 
 export const DEMONOLOGY_BUILD = PresetUtils.makePresetBuild('Demonology', {
