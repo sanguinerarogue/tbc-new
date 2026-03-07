@@ -845,6 +845,14 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDpsWarrior-AllItems-Romulo'sPoisonVial-28579"
+ value: {
+  dps: 2048.77118
+  tps: 1549.20558
+  dtps: 7.2778
+ }
+}
+dps_results: {
  key: "TestDpsWarrior-AllItems-RuneofForce-25994"
  value: {
   dps: 2027.52872

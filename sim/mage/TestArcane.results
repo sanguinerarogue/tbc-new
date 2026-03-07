@@ -725,6 +725,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestArcane-AllItems-Romulo'sPoisonVial-28579"
+ value: {
+  dps: 2403.88326
+  tps: 1698.45339
+ }
+}
+dps_results: {
  key: "TestArcane-AllItems-RuneofForce-25994"
  value: {
   dps: 2403.88326

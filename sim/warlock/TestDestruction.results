@@ -739,6 +739,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestDestruction-AllItems-Romulo'sPoisonVial-28579"
+ value: {
+  dps: 1940.54686
+  tps: 1726.52279
+ }
+}
+dps_results: {
  key: "TestDestruction-AllItems-RuneofForce-25994"
  value: {
   dps: 1940.54686

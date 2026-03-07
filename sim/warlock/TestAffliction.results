@@ -739,6 +739,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestAffliction-AllItems-Romulo'sPoisonVial-28579"
+ value: {
+  dps: 1736.69437
+  tps: 1159.48369
+ }
+}
+dps_results: {
  key: "TestAffliction-AllItems-RuneofForce-25994"
  value: {
   dps: 1736.69437
