@@ -1962,6 +1962,146 @@
                 "tooltip"
               ]
             },
+            "pet_type": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "tooltip": {
+                  "type": "string"
+                },
+                "no_pet": {
+                  "type": "string"
+                },
+                "bat": {
+                  "type": "string"
+                },
+                "bear": {
+                  "type": "string"
+                },
+                "cat": {
+                  "type": "string"
+                },
+                "crab": {
+                  "type": "string"
+                },
+                "owl": {
+                  "type": "string"
+                },
+                "raptor": {
+                  "type": "string"
+                },
+                "ravager": {
+                  "type": "string"
+                },
+                "wind_serpent": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "label",
+                "tooltip",
+                "no_pet",
+                "bat",
+                "bear",
+                "cat",
+                "crab",
+                "owl",
+                "raptor",
+                "ravager",
+                "wind_serpent"
+              ]
+            },
+            "ammo": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "tooltip": {
+                  "type": "string"
+                },
+                "no_ammo": {
+                  "type": "string"
+                },
+                "timeless_arrow": {
+                  "type": "string"
+                },
+                "mysterious_arrow": {
+                  "type": "string"
+                },
+                "adamantite_stinger": {
+                  "type": "string"
+                },
+                "halaani_razorshaft": {
+                  "type": "string"
+                },
+                "blackflight_arrow": {
+                  "type": "string"
+                },
+                "wardens_arrow": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "label",
+                "tooltip",
+                "no_ammo",
+                "timeless_arrow",
+                "mysterious_arrow",
+                "adamantite_stinger",
+                "halaani_razorshaft",
+                "blackflight_arrow",
+                "wardens_arrow"
+              ]
+            },
+            "quiver": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string"
+                },
+                "tooltip": {
+                  "type": "string"
+                },
+                "no_quiver": {
+                  "type": "string"
+                },
+                "speed_15": {
+                  "type": "string"
+                },
+                "speed_14": {
+                  "type": "string"
+                },
+                "speed_13": {
+                  "type": "string"
+                },
+                "speed_12": {
+                  "type": "string"
+                },
+                "speed_11": {
+                  "type": "string"
+                },
+                "speed_10": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "label",
+                "tooltip",
+                "no_quiver",
+                "speed_15",
+                "speed_14",
+                "speed_13",
+                "speed_12",
+                "speed_11",
+                "speed_10"
+              ]
+            },
             "detonate_seed": {
               "type": "object",
               "properties": {
@@ -2358,6 +2498,9 @@
             "hp_percent_for_defensives",
             "pet_uptime",
             "pet_single_ability",
+            "pet_type",
+            "ammo",
+            "quiver",
             "detonate_seed",
             "default_shout",
             "default_stance",
@@ -7607,190 +7750,99 @@
             "hunter": {
               "type": "object",
               "properties": {
-                "beast_mastery": {
-                  "type": "object",
-                  "properties": {
-                    "sting": {
-                      "type": "object",
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "tooltip": {
-                          "type": "string"
-                        },
-                        "values": {
-                          "type": "object",
-                          "properties": {
-                            "none": {
-                              "type": "string"
-                            },
-                            "serpent_sting": {
-                              "type": "string"
-                            }
-                          },
-                          "additionalProperties": false,
-                          "required": [
-                            "none",
-                            "serpent_sting"
-                          ]
-                        }
-                      },
-                      "additionalProperties": false,
-                      "required": [
-                        "label",
-                        "tooltip",
-                        "values"
-                      ]
-                    },
-                    "trap_weave": {
-                      "type": "object",
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "tooltip": {
-                          "type": "string"
-                        }
-                      },
-                      "additionalProperties": false,
-                      "required": [
-                        "label",
-                        "tooltip"
-                      ]
-                    },
-                    "multi_dot_serpent_sting": {
-                      "type": "object",
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "tooltip": {
-                          "type": "string"
-                        }
-                      },
-                      "additionalProperties": false,
-                      "required": [
-                        "label",
-                        "tooltip"
-                      ]
-                    }
+	            "sting": {
+	              "type": "object",
+	              "properties": {
+		            "label": {
+		              "type": "string"
+		            },
+		            "tooltip": {
+		              "type": "string"
+		            },
+		            "values": {
+		              "type": "object",
+		              "properties": {
+		                "none": {
+		                  "type": "string"
+		                },
+		                "serpent_sting": {
+		                  "type": "string"
+		                },
+		                "scorpid_sting": {
+		                  "type": "string"
+		                }
+		              },
+		              "additionalProperties": false,
+		              "required": [
+		                "none",
+		                "serpent_sting",
+		                "scorpid_sting"
+		              ]
+	                }
                   },
-                  "additionalProperties": false,
-                  "required": [
-                    "sting",
-                    "trap_weave",
-                    "multi_dot_serpent_sting"
-                  ]
-                },
-                "marksmanship": {
-                  "type": "object",
-                  "properties": {
-                    "sting": {
-                      "type": "object",
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "tooltip": {
-                          "type": "string"
-                        },
-                        "values": {
-                          "type": "object",
-                          "properties": {
-                            "none": {
-                              "type": "string"
-                            },
-                            "serpent_sting": {
-                              "type": "string"
-                            }
-                          },
-                          "additionalProperties": false,
-                          "required": [
-                            "none",
-                            "serpent_sting"
-                          ]
-                        }
-                      },
-                      "additionalProperties": false,
-                      "required": [
-                        "label",
-                        "tooltip",
-                        "values"
-                      ]
-                    },
-                    "trap_weave": {
-                      "type": "object",
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "tooltip": {
-                          "type": "string"
-                        }
-                      },
-                      "additionalProperties": false,
-                      "required": [
-                        "label",
-                        "tooltip"
-                      ]
-                    },
-                    "multi_dot_serpent_sting": {
-                      "type": "object",
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "tooltip": {
-                          "type": "string"
-                        }
-                      },
-                      "additionalProperties": false,
-                      "required": [
-                        "label",
-                        "tooltip"
-                      ]
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "sting",
-                    "trap_weave",
-                    "multi_dot_serpent_sting"
-                  ]
-                },
-                "survival": {
-                  "type": "object",
-                  "properties": {
-                    "multi_dot_serpent_sting": {
-                      "type": "object",
-                      "properties": {
-                        "label": {
-                          "type": "string"
-                        },
-                        "tooltip": {
-                          "type": "string"
-                        }
-                      },
-                      "additionalProperties": false,
-                      "required": [
-                        "label",
-                        "tooltip"
-                      ]
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "multi_dot_serpent_sting"
-                  ]
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "beast_mastery",
-                "marksmanship",
-                "survival"
-              ]
+	              "additionalProperties": false,
+	              "required": [
+		            "label",
+	                "tooltip",
+		            "values"
+	              ]
+	            },
+	            "melee_weave": {
+	              "type": "object",
+	              "properties": {
+	                "label": {
+	                  "type": "string"
+	                },
+	                "tooltip": {
+	                  "type": "string"
+	                }
+	              },
+	              "additionalProperties": false,
+	              "required": [
+	                "label",
+	                "tooltip"
+	              ]
+	            },
+	            "viper_start_mana_percent": {
+	              "type": "object",
+	              "properties": {
+	                "label": {
+	                  "type": "string"
+	                },
+	                "tooltip": {
+	                  "type": "string"
+	                }
+	              },
+	              "additionalProperties": false,
+	              "required": [
+	                "label",
+	                "tooltip"
+	              ]
+	            },
+	            "viper_stop_mana_percent": {
+	              "type": "object",
+	              "properties": {
+	                "label": {
+	                  "type": "string"
+	                },
+	                "tooltip": {
+	                  "type": "string"
+	                }
+	              },
+	              "additionalProperties": false,
+	              "required": [
+	                "label",
+	                "tooltip"
+	              ]
+	            }
+	          },
+	          "additionalProperties": false,
+	          "required": [
+	            "sting",
+	            "melee_weave",
+	            "viper_start_mana_percent",
+	            "viper_stop_mana_percent"
+	          ]
             }
           },
           "additionalProperties": false,
