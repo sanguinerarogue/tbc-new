@@ -248,14 +248,16 @@ func ExposeWeaknessAura(target *Unit, agilityFunc ExposeWeaknessAgiFunc) *Aura {
 	var currentApBonus float64
 
 	aura := target.GetOrRegisterAura(Aura{
-		Label:    "Expose Weakness",
-		Tag:      "ExposeWeakness",
-		ActionID: ActionID{SpellID: 34503},
-		Duration: time.Second * 7,
+		Label:     "Expose Weakness",
+		Tag:       "ExposeWeakness",
+		ActionID:  ActionID{SpellID: 34503},
+		Duration:  time.Second * 7,
+		MaxStacks: 10000,
 		OnGain: func(aura *Aura, sim *Simulation) {
 			currentApBonus = agilityFunc() * 0.25
 			target.PseudoStats.BonusAttackPower += currentApBonus
 			target.PseudoStats.BonusRangedAttackPower += currentApBonus
+			aura.SetStacks(sim, int32(currentApBonus))
 		},
 		OnExpire: func(aura *Aura, sim *Simulation) {
 			target.PseudoStats.BonusAttackPower -= currentApBonus
