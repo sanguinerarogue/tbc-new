@@ -90,7 +90,6 @@ func (hp *HunterPet) newBite() *core.Spell {
 			IgnoreHaste: true,
 		},
 
-		DamageMultiplierAdditive: 1,
 		DamageMultiplier:         1,
 		CritMultiplier:           hp.DefaultMeleeCritMultiplier(),
 		ThreatMultiplier:         1,
@@ -124,7 +123,6 @@ func (hp *HunterPet) newClaw() *core.Spell {
 			IgnoreHaste: true,
 		},
 
-		DamageMultiplierAdditive: 1,
 		DamageMultiplier:         1,
 		CritMultiplier:           hp.DefaultMeleeCritMultiplier(),
 		ThreatMultiplier:         1,
@@ -158,7 +156,6 @@ func (hp *HunterPet) newGore() *core.Spell {
 			IgnoreHaste: true,
 		},
 
-		DamageMultiplierAdditive: 1,
 		DamageMultiplier:         1,
 		CritMultiplier:           hp.DefaultMeleeCritMultiplier(),
 		ThreatMultiplier:         1,
@@ -194,7 +191,6 @@ func (hp *HunterPet) newLightningBreath() *core.Spell {
 			IgnoreHaste: true,
 		},
 
-		DamageMultiplierAdditive: 1,
 		DamageMultiplier:         1,
 		CritMultiplier:           hp.DefaultSpellCritMultiplier(),
 		ThreatMultiplier:         1,
@@ -230,7 +226,6 @@ func (hp *HunterPet) newScreech() *core.Spell {
 			IgnoreHaste: true,
 		},
 
-		DamageMultiplierAdditive: 1,
 		DamageMultiplier:         1,
 		CritMultiplier:           hp.DefaultMeleeCritMultiplier(),
 		ThreatMultiplier:         1,
