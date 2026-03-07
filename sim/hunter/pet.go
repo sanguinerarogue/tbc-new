@@ -58,9 +58,7 @@ func (hunter *Hunter) NewHunterPet() *HunterPet {
 	hp.AddStatDependency(stats.Strength, stats.AttackPower, 2.0)
 	hp.AddStatDependency(stats.Agility, stats.PhysicalCritPercent, core.CritPerAgiMaxLevel[proto.Class_ClassWarrior])
 
-	baseRegenPerSecond := 25.0
-	regenMultiplier := 1.0 + 0.5*float64(hp.hunterOwner.Talents.BestialDiscipline)
-	hp.EnableFocusBar(100, baseRegenPerSecond*regenMultiplier, false, nil, false)
+	hp.EnableFocusBar(1.0 + 0.5*float64(hp.hunterOwner.Talents.BestialDiscipline))
 
 	hp.EnableAutoAttacks(hp, core.AutoAttackOptions{
 		MainHand: core.Weapon{

@@ -635,9 +635,7 @@ func (unit *Unit) MultiplyAttackSpeed(sim *Simulation, amount float64) {
 
 // Helper for multiplying resource generation speed
 func (unit *Unit) MultiplyResourceRegenSpeed(sim *Simulation, amount float64) {
-	if unit.HasFocusBar() {
-		unit.MultiplyFocusRegenSpeed(sim, amount)
-	} else if unit.HasEnergyBar() {
+	if unit.HasEnergyBar() {
 		unit.MultiplyEnergyRegenSpeed(sim, amount)
 	}
 
