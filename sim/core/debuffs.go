@@ -52,7 +52,7 @@ func applyDebuffEffects(target *Unit, targetIdx int, debuffs *proto.Debuffs, rai
 	}
 
 	if debuffs.HuntersMark != proto.TristateEffect_TristateEffectMissing {
-		aura := HuntersMarkAura(target, TernaryInt32(IsImproved(debuffs.HuntersMark), 5, 0))
+		aura := HuntersMarkAura(target, GetTristateValueInt32(debuffs.HuntersMark, 0, 5))
 		ApplyFixedUptimeAura(aura, 1, aura.Duration, 1)
 
 		ScheduledAura(aura, PeriodicActionOptions{

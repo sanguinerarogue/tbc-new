@@ -169,7 +169,7 @@ func (hp *HunterPet) newGore() *core.Spell {
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			baseDamage := hp.CalcAndRollDamageRange(sim, 37, 61)
-			if sim.RandomFloat("Gore") < 0.5 {
+			if sim.Proc(0.5, "Gore") {
 				baseDamage *= 2
 			}
 			spell.CalcAndDealDamage(sim, target, baseDamage, spell.OutcomeMeleeSpecialHitAndCrit)

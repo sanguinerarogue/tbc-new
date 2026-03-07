@@ -476,9 +476,9 @@
 				"label": "Pet Uptime (%)",
 				"tooltip": "Percent of the fight duration for which your pet will be alive."
 			},
-			"glaive_toss_chance": {
-				"label": "Glaive Toss Success %",
-				"tooltip": "The chance that Glaive Toss hits secondary targets in percentages."
+			"pet_single_ability": {
+				"label": "Single Pet Ability",
+				"tooltip": "Pet will only use it's primary ability (Gore, Screech etc.)"
 			},
 			"detonate_seed": {
 				"label": "Detonate Seed on Cast",

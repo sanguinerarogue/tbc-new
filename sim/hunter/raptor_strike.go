@@ -43,6 +43,10 @@ func (hunter *Hunter) registerRaptorStrikeSpell() {
 
 // Returns true if the regular melee swing should be used, false otherwise.
 func (hunter *Hunter) TryRaptorStrike(sim *core.Simulation, mhSwingSpell *core.Spell) *core.Spell {
+	if mhSwingSpell.ActionID.Tag != 1 {
+		return mhSwingSpell
+	}
+
 	if hunter.RaptorStrike.CanCast(sim, hunter.CurrentTarget) {
 		return hunter.RaptorStrike
 	}

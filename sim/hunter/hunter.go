@@ -30,19 +30,19 @@ type Hunter struct {
 
 	killCommandEnabledUntil time.Duration // Time that KC enablement expires.
 
-	AimedShot         *core.Spell
-	ArcaneShot        *core.Spell
-	AspectOfTheHawk   *core.Spell
-	AspectOfTheViper  *core.Spell
-	BestialWrath      *core.Spell
-	KillCommand       *core.Spell
-	MultiShot         *core.Spell
-	RapidFire         *core.Spell
-	RaptorStrike      *core.Spell
-	Readiness         *core.Spell
-	ScorpidSting      *core.Spell
-	SerpentSting      *core.Spell
-	SteadyShot        *core.Spell
+	AimedShot        *core.Spell
+	ArcaneShot       *core.Spell
+	AspectOfTheHawk  *core.Spell
+	AspectOfTheViper *core.Spell
+	BestialWrath     *core.Spell
+	KillCommand      *core.Spell
+	MultiShot        *core.Spell
+	RapidFire        *core.Spell
+	RaptorStrike     *core.Spell
+	Readiness        *core.Spell
+	ScorpidSting     *core.Spell
+	SerpentSting     *core.Spell
+	SteadyShot       *core.Spell
 	// HuntersMarkSpell *core.Spell
 
 	AspectOfTheHawkAura  *core.Aura
@@ -139,6 +139,26 @@ func NewHunter(character *core.Character, options *proto.Player, hunterOptions *
 		}
 	}
 
+	hunter.RegisterItemSwapCallback([]proto.ItemSlot{proto.ItemSlot_ItemSlotRanged}, func(sim *core.Simulation, slot proto.ItemSlot) {
+		ranged := hunter.AutoAttacks.Ranged()
+		if ranged == nil {
+			return
+		}
+
+		// Remove old ammo bonus
+		ranged.BaseDamageMin -= hunter.AmmoDamageBonus
+		ranged.BaseDamageMax -= hunter.AmmoDamageBonus
+
+		if hunter.GetRangedWeapon() != nil && hunter.GetRangedWeapon().ID == ThoridalTheStarsFuryItemID {
+			hunter.PseudoStats.RangedSpeedMultiplier = 1.15
+			hunter.AmmoDamageBonus = 0
+		} else {
+			hunter.AmmoDamageBonus = hunter.AmmoDPS * ranged.SwingSpeed
+			ranged.BaseDamageMin += hunter.AmmoDamageBonus
+			ranged.BaseDamageMax += hunter.AmmoDamageBonus
+		}
+	})
+
 	hunter.EnableAutoAttacks(hunter, core.AutoAttackOptions{
 		Ranged:          rangedWeapon,
 		MainHand:        hunter.WeaponFromMainHand(hunter.DefaultMeleeCritMultiplier()),
@@ -156,6 +176,23 @@ func NewHunter(character *core.Character, options *proto.Player, hunterOptions *
 	hunter.Pet = hunter.NewHunterPet()
 
 	return hunter
+}
+
+func (hunter *Hunter) RegisterRangedSpell(config core.SpellConfig) *core.Spell {
+	if config.Cast.ModifyCast == nil {
+		config.Cast.ModifyCast = func(sim *core.Simulation, spell *core.Spell, cast *core.Cast) {
+			cast.CastTime = spell.CastTime()
+			hunter.AutoAttacks.StopRangedUntil(sim, sim.CurrentTime+cast.CastTime)
+		}
+	}
+
+	if config.Cast.CastTime == nil {
+		config.Cast.CastTime = func(spell *core.Spell) time.Duration {
+			return time.Duration(float64(spell.DefaultCast.CastTime) / hunter.TotalRangedHasteMultiplier())
+		}
+	}
+
+	return hunter.RegisterSpell(config)
 }
 
 func (hunter *Hunter) Initialize() {

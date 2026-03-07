@@ -1946,7 +1946,7 @@
                 "tooltip"
               ]
             },
-            "glaive_toss_chance": {
+            "pet_single_ability": {
               "type": "object",
               "properties": {
                 "label": {
@@ -2357,7 +2357,7 @@
             "burst_window",
             "hp_percent_for_defensives",
             "pet_uptime",
-            "glaive_toss_chance",
+            "pet_single_ability",
             "detonate_seed",
             "default_shout",
             "default_stance",

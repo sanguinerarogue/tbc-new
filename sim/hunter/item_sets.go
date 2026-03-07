@@ -195,6 +195,13 @@ func init() {
 	})
 }
 
+func (hunter *Hunter) talonOfAlarBonus() float64 {
+	if hunter.TalonOfAlarAura.IsActive() {
+		return 40
+	}
+	return 0
+}
+
 func (hunter *Hunter) addPvpGloves() {
 	hunter.RegisterPvPGloveMod(
 		[]int32{23279, 22862, 16463, 16571, 35475, 35377, 28806, 28614, 28335, 31961, 33665, 34991},
