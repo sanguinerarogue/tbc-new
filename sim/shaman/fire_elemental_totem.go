@@ -45,15 +45,7 @@ func (shaman *Shaman) registerFireElementalTotem() {
 				shaman.TotemExpirations[FireTotem] = sim.CurrentTime + fireElementalAura.Duration
 			}
 
-			shaman.MagmaTotem.AOEDot().Deactivate(sim)
-			shaman.FireNovaTotemPA.Cancel(sim)
-			searingTotemDot := shaman.SearingTotem.Dot(shaman.CurrentTarget)
-			if searingTotemDot != nil {
-				searingTotemDot.Deactivate(sim)
-			}
-			if shaman.TotemOfWrath != nil {
-				shaman.TotemOfWrath.RelatedSelfBuff.Deactivate(sim)
-			}
+			shaman.cancelFireTotems(sim)
 
 			shaman.FireElemental.Disable(sim)
 			shaman.FireElemental.EnableWithTimeout(sim, shaman.FireElemental, fireElementalAura.Duration)

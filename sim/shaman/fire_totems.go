@@ -46,9 +46,8 @@ func (shaman *Shaman) registerSearingTotemSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
-			shaman.MagmaTotem.AOEDot().Deactivate(sim)
-			shaman.FireElemental.Disable(sim)
-			shaman.FireNovaTotemPA.Cancel(sim)
+			shaman.cancelFireTotems(sim)
+
 			if sim.CurrentTime < 0 {
 				dropTime := sim.CurrentTime
 				pa := sim.GetConsumedPendingActionFromPool()
@@ -105,9 +104,7 @@ func (shaman *Shaman) registerMagmaTotemSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, _ *core.Unit, spell *core.Spell) {
-			shaman.SearingTotem.Dot(shaman.CurrentTarget).Deactivate(sim)
-			shaman.FireElemental.Disable(sim)
-			shaman.FireNovaTotemPA.Cancel(sim)
+			shaman.cancelFireTotems(sim)
 			spell.AOEDot().Apply(sim)
 
 			duration := time.Second * 20
@@ -144,9 +141,7 @@ func (shaman *Shaman) registerFireNovaTotemSpell() {
 		BonusCoefficient: 0.21400000155,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			shaman.SearingTotem.Dot(shaman.CurrentTarget).Deactivate(sim)
-			shaman.MagmaTotem.AOEDot().Deactivate(sim)
-			shaman.FireElemental.Disable(sim)
+			shaman.cancelFireTotems(sim)
 
 			baseDamage := shaman.CalcAndRollDamageRange(sim, 654, 730)
 			spell.CalcAoeDamage(sim, baseDamage, spell.OutcomeMagicHitAndCrit)
@@ -160,4 +155,17 @@ func (shaman *Shaman) registerFireNovaTotemSpell() {
 			shaman.TotemExpirations[FireTotem] = sim.CurrentTime + duration
 		},
 	})
+}
+
+func (shaman *Shaman) cancelFireTotems(sim *core.Simulation) {
+	shaman.MagmaTotem.AOEDot().Deactivate(sim)
+	shaman.FireNovaTotemPA.Cancel(sim)
+	searingTotemDot := shaman.SearingTotem.Dot(shaman.CurrentTarget)
+	if searingTotemDot != nil {
+		searingTotemDot.Deactivate(sim)
+	}
+	if shaman.TotemOfWrath != nil {
+		shaman.TotemOfWrath.RelatedSelfBuff.Deactivate(sim)
+	}
+	shaman.FireElemental.Disable(sim)
 }
