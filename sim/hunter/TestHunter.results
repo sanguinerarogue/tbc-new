@@ -71,8 +71,8 @@ dps_results: {
 dps_results: {
  key: "TestHunter-AllItems-AdamantiteScope-2722"
  value: {
-  dps: 1936.67283
-  tps: 1449.44371
+  dps: 1933.57321
+  tps: 1446.3441
   dtps: 12.43259
  }
 }

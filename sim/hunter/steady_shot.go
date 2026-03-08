@@ -35,9 +35,15 @@ func (hunter *Hunter) registerSteadyShotSpell() {
 		ThreatMultiplier: 1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+			// Steady Shot isn't affected by Ammo, Scopes or Adamantite Weightstone
 			weaponDamage := hunter.AutoAttacks.Ranged().BaseDamage(sim) - hunter.AmmoDamageBonus
 
-			if hunter.Ranged().Enchant.EffectID == 2723 {
+			if ranged := hunter.Ranged(); ranged != nil && ranged.Enchant.EffectID == 2722 {
+				weaponDamage -= 10
+			} else if ranged != nil && ranged.Enchant.EffectID == 2723 {
+				weaponDamage -= 12
+			}
+			if hunter.Consumables.OhImbueId == 34340 || (hunter.Consumables.MhImbueId == 34340 && !hunter.windFuryEnabled) {
 				weaponDamage -= 12
 			}
 

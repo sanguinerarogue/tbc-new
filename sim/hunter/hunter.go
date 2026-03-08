@@ -24,6 +24,8 @@ type Hunter struct {
 	Talents *proto.HunterTalents
 	Options *proto.HunterOptions
 
+	windFuryEnabled bool
+
 	Pet *HunterPet
 
 	AmmoDPS         float64
@@ -246,6 +248,10 @@ func (hunter *Hunter) AddRaidBuffs(raidBuffs *proto.RaidBuffs) {
 func (hunter *Hunter) AddPartyBuffs(partyBuffs *proto.PartyBuffs) {
 	if hunter.Talents.TrueshotAura {
 		partyBuffs.TrueshotAura = true
+	}
+
+	if partyBuffs.WindfuryTotem != proto.TristateEffect_TristateEffectMissing {
+		hunter.windFuryEnabled = true
 	}
 }
 
