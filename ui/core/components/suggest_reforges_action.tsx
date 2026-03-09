@@ -28,7 +28,7 @@ import { ReforgeWorkerPool, getReforgeWorkerPool } from '../reforge_worker_pool'
 import type { LPModel, LPSolution, SerializedConstraints, SerializedVariables } from '../../worker/reforge_types';
 import { ProgressTrackerModal } from './progress_tracker_modal';
 import { getEmptySlotIconUrl } from './gear_picker/utils';
-import { CURRENT_PHASE, Phase } from '../constants/other';
+import { CURRENT_PHASE } from '../constants/other';
 import { CharacterStats } from './character_stats';
 
 type YalpsCoefficients = Map<string, number>;
@@ -1350,7 +1350,7 @@ export class ReforgeOptimizer {
 		const constraints = new Map<string, Constraint>();
 		const metaGem = gear.getMetaGem();
 		if (metaGem?.id) {
-			const { minBlue, minRed, minYellow } = getMetaGemCondition(metaGem?.id);
+			const { minBlue, minRed, minYellow, compareColorGreater: _, compareColorLesser: __ } = getMetaGemCondition(metaGem?.id);
 			if (minBlue) {
 				constraints.set(`GemColor_${GemColor.GemColorBlue}`, greaterEq(minBlue));
 			}
