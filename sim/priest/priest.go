@@ -27,6 +27,7 @@ type Priest struct {
 	DevouringPlague *core.Spell
 	VampiricEmbrace *core.Spell
 	VampiricTouch   []*core.Spell
+	Smite           []*core.Spell
 }
 
 type SelfBuffs struct {
@@ -47,6 +48,7 @@ func (priest *Priest) Initialize() {
 	ShadowWordPainRankMap.RegisterAll(priest.registerShadowWordPainSpell)
 	ShadowWordDeathRankMap.RegisterAll(priest.registerShadowWordDeathSpell)
 	VampiricTouchRankMap.RegisterAll(priest.registerVampiricTouchSpell)
+	SmiteRankMap.RegisterAll(priest.registerSmiteSpell)
 	priest.registerShadowfiendSpell()
 	// priest.registerPowerInfusionSpell()
 }
@@ -144,6 +146,7 @@ const (
 	PriestSpellVampiricEmbrace
 	PriestSpellVampiricTouch
 	PriestSpellFade
+	PriestSpellSmite
 
 	PriestSpellLast
 	PriestSpellsAll    = PriestSpellLast<<1 - 1

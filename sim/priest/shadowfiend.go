@@ -1,8 +1,9 @@
 package priest
 
 import (
-	"github.com/wowsims/tbc/sim/core"
 	"time"
+
+	"github.com/wowsims/tbc/sim/core"
 )
 
 func (priest *Priest) registerShadowfiendSpell() {
@@ -37,8 +38,10 @@ func (priest *Priest) registerShadowfiendSpell() {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			priest.ShadowfiendPet.EnableWithTimeout(sim, priest.ShadowfiendPet, time.Second*15.0)
-			priest.ShadowfiendAura.Activate(sim)
+			priest.ShadowfiendPet.EnableWithTimeout(sim, priest.ShadowfiendPet, spell.RelatedSelfBuff.Duration)
+			spell.RelatedSelfBuff.Activate(sim)
 		},
+
+		RelatedSelfBuff: priest.ShadowfiendAura,
 	})
 }
