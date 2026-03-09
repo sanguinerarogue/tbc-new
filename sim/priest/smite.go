@@ -1,8 +1,6 @@
 package priest
 
 import (
-	"time"
-
 	"github.com/wowsims/tbc/sim/common/shared"
 	"github.com/wowsims/tbc/sim/core"
 )
@@ -21,9 +19,6 @@ var SmiteRankMap = shared.SpellRankMap{
 }
 
 func (priest *Priest) registerSmiteSpell(rankConfig shared.SpellRankConfig) {
-	// Divine Fury (Holy Tier 3): -0.1s cast time per rank, max 5 ranks = -0.5s
-	castTimeReduction := time.Duration(priest.Talents.DivineFury) * 100 * time.Millisecond
-
 	// Default cast time for Smite is 2.5 seconds (ranks 3+)
 	baseCastTime := core.DurationFromSeconds(2.5)
 	if rankConfig.CastTimeSeconds > 0 {
@@ -43,7 +38,7 @@ func (priest *Priest) registerSmiteSpell(rankConfig shared.SpellRankConfig) {
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
 				GCD:      core.GCDDefault,
-				CastTime: baseCastTime - castTimeReduction,
+				CastTime: baseCastTime,
 			},
 		},
 
@@ -51,7 +46,7 @@ func (priest *Priest) registerSmiteSpell(rankConfig shared.SpellRankConfig) {
 		DamageMultiplierAdditive: 1,
 		CritMultiplier:           priest.DefaultSpellCritMultiplier(),
 		BonusCoefficient:         rankConfig.Coefficient,
-		ThreatMultiplier:         1 - []float64{0, .07, .14, .20}[priest.Talents.SilentResolve],
+		ThreatMultiplier:         1,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			baseDamage := priest.CalcAndRollDamageRange(sim, rankConfig.MinDamage, rankConfig.MaxDamage)
