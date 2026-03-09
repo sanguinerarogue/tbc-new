@@ -134,6 +134,10 @@ func NewMage(character *core.Character, options *proto.Player) *Mage {
 
 	mage.EnableManaBar()
 
+	if mage.Talents.SummonWaterElemental {
+		mage.waterElemental = mage.NewWaterElemental()
+	}
+
 	return mage
 }
 

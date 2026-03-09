@@ -1486,6 +1486,12 @@ func BloodlustAura(character *Character, actionTag int32) *Aura {
 		Duration: time.Minute * 10,
 	})
 
+	for _, pet := range character.Pets {
+		if !pet.IsGuardian() {
+			BloodlustAura(&pet.Character, actionTag)
+		}
+	}
+
 	aura := character.GetOrRegisterAura(Aura{
 		Label:    "Bloodlust-" + actionID.String(),
 		Tag:      BloodlustAuraTag,
@@ -1494,6 +1500,11 @@ func BloodlustAura(character *Character, actionTag int32) *Aura {
 		OnGain: func(aura *Aura, sim *Simulation) {
 			aura.Unit.MultiplyAttackSpeed(sim, 1.3)
 			aura.Unit.MultiplyCastSpeed(sim, 1.3)
+			for _, pet := range character.Pets {
+				if pet.IsEnabled() && !pet.IsGuardian() {
+					pet.GetAura(aura.Label).Activate(sim)
+				}
+			}
 			sated.Activate(sim)
 		},
 		OnExpire: func(aura *Aura, sim *Simulation) {
