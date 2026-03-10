@@ -10,14 +10,7 @@ import { Class, GemColor, ItemQuality, ItemSlot, Profession, PseudoStat, Race, S
 import { UIGem as Gem, ReforgeSettings, StatCapType } from '../proto/ui';
 import { EquippedItem } from '../proto_utils/equipped_item';
 import { Gear } from '../proto_utils/gear';
-import {
-	PRIMARY_COLORS,
-	gemColorsToMatchingSocket,
-	gemMatchesSocket,
-	getEmptyGemSocketIconUrl,
-	getMetaGemCondition,
-	socketToMatchingColors,
-} from '../proto_utils/gems';
+import { gemColorsToMatchingSocket, gemMatchesSocket, getEmptyGemSocketIconUrl, getMetaGemCondition } from '../proto_utils/gems';
 import { statCapTypeNames } from '../proto_utils/names';
 import { translateSlotName } from '../../i18n/localization';
 import { pseudoStatIsCapped, StatCap, statIsCapped, Stats, UnitStat, UnitStatPresets } from '../proto_utils/stats';
@@ -1227,17 +1220,14 @@ export class ReforgeOptimizer {
 							for (const [stat, value] of distributedSocketBonus.entries()) {
 								this.applyReforgeStat(coefficients, stat, value, preCapEPs);
 							}
-						} else if (!forceSocketBonus && PRIMARY_COLORS.includes(gemData.gem.color)) {
-							socketToMatchingColors
-								.get(socketColor)
-								?.filter(color => PRIMARY_COLORS.includes(color))
-								?.forEach(() => {
-									coefficients.set(`GemColor_${gemData.gem.color}`, 1);
-									const compareValue = getColorCompareConstraint(socketColors);
-									if (compareValue != 0) {
-										coefficients.set(`GemColorCompare_${compareColorGreater}_${compareColorLesser}`, compareValue);
-									}
-								});
+						} else if (!forceSocketBonus && socketColors.length) {
+							socketColors?.forEach(() => {
+								coefficients.set(`GemColor_${gemData.gem.color}`, 1);
+								const compareValue = getColorCompareConstraint(socketColors);
+								if (compareValue != 0) {
+									coefficients.set(`GemColorCompare_${compareColorGreater}_${compareColorLesser}`, compareValue);
+								}
+							});
 						}
 
 						if (gemData.isUnique) {
@@ -1447,7 +1437,6 @@ export class ReforgeOptimizer {
 		this.pendingWorker = getReforgeWorkerPool();
 		const solution: LPSolution = await this.pendingWorker.solve(model, {
 			timeout: maxSeconds * 1000,
-			tolerance: 0.005, // unused currently
 		});
 		if (isDevMode()) {
 			console.log('LP solution for this iteration:');
