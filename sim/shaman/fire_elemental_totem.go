@@ -16,6 +16,9 @@ func (shaman *Shaman) registerFireElementalTotem() {
 		Label:    "Fire Elemental Totem",
 		ActionID: actionID,
 		Duration: totalDuration,
+		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+			shaman.FireElemental.Disable(sim)
+		},
 	})
 
 	shaman.FireElementalTotem = shaman.RegisterSpell(core.SpellConfig{
