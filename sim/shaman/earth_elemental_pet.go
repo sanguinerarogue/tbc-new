@@ -28,11 +28,11 @@ func (shaman *Shaman) NewEarthElemental() *EarthElemental {
 		}),
 		shamanOwner: shaman,
 	}
-	baseMeleeDamage := 125.0
 	earthElemental.EnableAutoAttacks(earthElemental, core.AutoAttackOptions{
 		MainHand: core.Weapon{
-			BaseDamageMin:  baseMeleeDamage - 10,
-			BaseDamageMax:  baseMeleeDamage + 10,
+			// https://discord.com/channels/260297137554849794/1474479843428139101/1480955121394520237
+			BaseDamageMin:  174,
+			BaseDamageMax:  196,
 			SwingSpeed:     2,
 			CritMultiplier: earthElemental.DefaultMeleeCritMultiplier(),
 			SpellSchool:    core.SpellSchoolPhysical,
