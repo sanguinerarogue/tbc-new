@@ -28,6 +28,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 		Stat.StatExpertiseRating,
 		Stat.StatArmorPenetration,
 		Stat.StatSpellDamage,
+		Stat.StatNatureDamage,
 		Stat.StatSpellHitRating,
 		Stat.StatSpellCritRating,
 	],
@@ -41,7 +42,16 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecEnhancementShaman, {
 	epReferenceStat: Stat.StatAgility,
 	// Which stats to display in the Character Stats section, at the bottom of the left-hand sidebar.
 	displayStats: UnitStat.createDisplayStatArray(
-		[Stat.StatHealth, Stat.StatStamina, Stat.StatStrength, Stat.StatAgility, Stat.StatIntellect, Stat.StatAttackPower, Stat.StatSpellDamage],
+		[
+			Stat.StatHealth,
+			Stat.StatStamina,
+			Stat.StatStrength,
+			Stat.StatAgility,
+			Stat.StatIntellect,
+			Stat.StatAttackPower,
+			Stat.StatSpellDamage,
+			Stat.StatNatureDamage
+		],
 		[
 			PseudoStat.PseudoStatMeleeHitPercent,
 			PseudoStat.PseudoStatMeleeCritPercent,
