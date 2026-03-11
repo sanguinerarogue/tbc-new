@@ -6,11 +6,11 @@ import { Constraint, greaterEq, lessEq } from 'yalps';
 import i18n from '../../i18n/config.js';
 import { IndividualSimUI } from '../individual_sim_ui';
 import { Player } from '../player';
-import { Class, GemColor, ItemSlot, Profession, PseudoStat, Race, Spec, Stat } from '../proto/common';
+import { Class, GemColor, ItemQuality, ItemSlot, Profession, PseudoStat, Race, Spec, Stat } from '../proto/common';
 import { UIGem as Gem, ReforgeSettings, StatCapType } from '../proto/ui';
 import { EquippedItem } from '../proto_utils/equipped_item';
 import { Gear } from '../proto_utils/gear';
-import { PRIMARY_COLORS, gemMatchesSocket, getEmptyGemSocketIconUrl, getMetaGemCondition, socketToMatchingColors } from '../proto_utils/gems';
+import { gemColorsToMatchingSocket, gemMatchesSocket, getEmptyGemSocketIconUrl, getMetaGemCondition } from '../proto_utils/gems';
 import { statCapTypeNames } from '../proto_utils/names';
 import { translateSlotName } from '../../i18n/localization';
 import { pseudoStatIsCapped, StatCap, statIsCapped, Stats, UnitStat, UnitStatPresets } from '../proto_utils/stats';
@@ -28,7 +28,7 @@ import { ReforgeWorkerPool, getReforgeWorkerPool } from '../reforge_worker_pool'
 import type { LPModel, LPSolution, SerializedConstraints, SerializedVariables } from '../../worker/reforge_types';
 import { ProgressTrackerModal } from './progress_tracker_modal';
 import { getEmptySlotIconUrl } from './gear_picker/utils';
-import { CURRENT_PHASE, Phase } from '../constants/other';
+import { CURRENT_PHASE } from '../constants/other';
 import { CharacterStats } from './character_stats';
 
 type YalpsCoefficients = Map<string, number>;
@@ -58,17 +58,23 @@ type GemData = {
 	coefficients: YalpsCoefficients;
 };
 
-const INCLUDED_STATS = [
-	Stat.StatSpellHitRating,
-	Stat.StatSpellCritRating,
-	Stat.StatSpellHasteRating,
-	Stat.StatMeleeHitRating,
-	Stat.StatMeleeCritRating,
-	Stat.StatMeleeHasteRating,
-	Stat.StatExpertiseRating,
-	Stat.StatArmorPenetration,
-	Stat.StatDodgeRating,
-	Stat.StatParryRating,
+const INCLUDED_STATS: UnitStat[] = [
+	UnitStat.fromStat(Stat.StatSpellHitRating),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSchoolHitPercentArcane),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSchoolHitPercentFire),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSchoolHitPercentFrost),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSchoolHitPercentHoly),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSchoolHitPercentNature),
+	UnitStat.fromPseudoStat(PseudoStat.PseudoStatSchoolHitPercentShadow),
+	UnitStat.fromStat(Stat.StatSpellCritRating),
+	UnitStat.fromStat(Stat.StatSpellHasteRating),
+	UnitStat.fromStat(Stat.StatMeleeHitRating),
+	UnitStat.fromStat(Stat.StatMeleeCritRating),
+	UnitStat.fromStat(Stat.StatMeleeHasteRating),
+	UnitStat.fromStat(Stat.StatExpertiseRating),
+	UnitStat.fromStat(Stat.StatArmorPenetration),
+	UnitStat.fromStat(Stat.StatDodgeRating),
+	UnitStat.fromStat(Stat.StatParryRating),
 ];
 
 type StatTooltipContent = { [key in Stat]?: () => Element | string };
@@ -358,10 +364,26 @@ export class ReforgeOptimizer {
 		]) {
 			const children = UnitStat.getChildren(parentStat);
 			const specificSchoolWeights = children.map(childStat => weights.getPseudoStat(childStat));
-
 			// If any of the children have non-zero EP, then set pure Rating EP
 			// to 0 and continue.
-			if (specificSchoolWeights.some(weight => weight !== 0)) {
+			if (
+				specificSchoolWeights.some((weight, index) => {
+					if (
+						parentStat === Stat.StatSpellHitRating &&
+						[
+							PseudoStat.PseudoStatSchoolHitPercentArcane,
+							PseudoStat.PseudoStatSchoolHitPercentFire,
+							PseudoStat.PseudoStatSchoolHitPercentFrost,
+							PseudoStat.PseudoStatSchoolHitPercentHoly,
+							PseudoStat.PseudoStatSchoolHitPercentNature,
+							PseudoStat.PseudoStatSchoolHitPercentShadow,
+						].includes(children[index])
+					) {
+						return false;
+					}
+					return weight !== 0;
+				})
+			) {
 				validatedWeights = validatedWeights.withStat(parentStat, 0);
 				continue;
 			}
@@ -746,9 +768,8 @@ export class ReforgeOptimizer {
 				</thead>
 				<tbody>
 					{this.simUI.individualConfig.displayStats.map(unitStat => {
-						if (!unitStat.hasRootStat()) return;
-						const rootStat = unitStat.getRootStat();
-						if (!INCLUDED_STATS.includes(rootStat)) return;
+						const rootStat = unitStat.hasRootStat() ? unitStat.getRootStat() : null;
+						if (!INCLUDED_STATS.some(us => us.equals(unitStat))) return;
 
 						const listElementRef = ref<HTMLTableRowElement>();
 						const statName = unitStat.getShortName(this.player.getClass());
@@ -812,7 +833,7 @@ export class ReforgeOptimizer {
 								})
 							: null;
 
-						const tooltipText = this.statTooltips[rootStat];
+						const tooltipText = rootStat !== null ? this.statTooltips[rootStat] : null;
 						const statTooltipRef = ref<HTMLButtonElement>();
 
 						const row = (
@@ -942,9 +963,7 @@ export class ReforgeOptimizer {
 								(config.capType === StatCapType.TypeThreshold || config.capType === StatCapType.TypeSoftCap) && config.breakpoints.length > 1,
 						)
 						.map(({ breakpoints, unitStat }) => {
-							if (!unitStat.hasRootStat()) return;
-							const rootStat = unitStat.getRootStat();
-							if (!INCLUDED_STATS.includes(rootStat)) return;
+							if (!INCLUDED_STATS.some(us => us.equals(unitStat))) return;
 
 							const listElementRef = ref<HTMLTableRowElement>();
 							const statName = unitStat.getShortName(this.player.getClass());
@@ -1119,6 +1138,24 @@ export class ReforgeOptimizer {
 		const variables = new Map<string, YalpsCoefficients>();
 		const gemsToInclude = this.buildGemOptions(preCapEPs, reforgeCaps, reforgeSoftCaps);
 
+		const metaGem = gear.getMetaGem();
+		let compareColorGreater = 0,
+			compareColorLesser = 0;
+		if (metaGem?.id) {
+			const condition = getMetaGemCondition(metaGem.id);
+			compareColorGreater = condition.compareColorGreater || 0;
+			compareColorLesser = condition.compareColorLesser || 0;
+		}
+
+		const getColorCompareConstraint = (socketColors: GemColor[]) => {
+			let value = 0;
+			if (socketColors.filter(c => c != compareColorGreater || c != compareColorLesser).length) {
+				if (socketColors.some(c => c == compareColorGreater)) value = +1;
+				if (socketColors.some(c => c == compareColorLesser)) value = -1;
+			}
+			return value;
+		};
+
 		for (const slot of gear.getItemSlots()) {
 			const item = gear.getEquippedItem(slot);
 
@@ -1171,18 +1208,26 @@ export class ReforgeOptimizer {
 						const coefficients = new Map<string, number>(gemData.coefficients);
 						coefficients.set(constraintKey, 1);
 
+						const socketColors = gemColorsToMatchingSocket.get(gemData.gem.color) || [];
+
 						if (gemMatchesSocket(gemData.gem, socketColor)) {
 							coefficients.set(`GemColor_${socketColor}`, 1);
+							const compareValue = getColorCompareConstraint(socketColors);
+							if (compareValue != 0) {
+								coefficients.set(`GemColorCompare_${compareColorGreater}_${compareColorLesser}`, compareValue);
+							}
+
 							for (const [stat, value] of distributedSocketBonus.entries()) {
 								this.applyReforgeStat(coefficients, stat, value, preCapEPs);
 							}
-						} else if (!forceSocketBonus && PRIMARY_COLORS.includes(gemData.gem.color)) {
-							socketToMatchingColors
-								.get(socketColor)
-								?.filter(color => PRIMARY_COLORS.includes(color))
-								?.forEach(() => {
-									coefficients.set(`GemColor_${gemData.gem.color}`, 1);
-								});
+						} else if (!forceSocketBonus && socketColors.length) {
+							socketColors?.forEach(() => {
+								coefficients.set(`GemColor_${gemData.gem.color}`, 1);
+								const compareValue = getColorCompareConstraint(socketColors);
+								if (compareValue != 0) {
+									coefficients.set(`GemColorCompare_${compareColorGreater}_${compareColorLesser}`, compareValue);
+								}
+							});
 						}
 
 						if (gemData.isUnique) {
@@ -1217,7 +1262,13 @@ export class ReforgeOptimizer {
 
 			for (const gem of allGemsOfColor) {
 				const isJC = gem.requiredProfession == Profession.Jewelcrafting;
-				if ((isJC && !hasJC) || !gemMatchesSocket(gem, socketColor) || sum(gem.stats) <= 0 || gem.phase > this.maxGemPhase) {
+				if (
+					(isJC && !hasJC) ||
+					!gemMatchesSocket(gem, socketColor) ||
+					sum(gem.stats) <= 0 ||
+					gem.phase > this.maxGemPhase ||
+					gem.quality < ItemQuality.ItemQualityRare
+				) {
 					continue;
 				}
 
@@ -1262,21 +1313,12 @@ export class ReforgeOptimizer {
 			const includedGemDataForColor = new Array<GemData>();
 			let foundUncappedJCGem = false;
 			let foundUncappedNormalGem = false;
-			const numGemOptionsForStat = new Map<string, number>();
 
 			for (const gemData of filteredGemDataForColor) {
 				const cappedStatKeys = ReforgeOptimizer.getCappedStatKeys(gemData.coefficients, reforgeCaps, reforgeSoftCaps);
-				let isRedundantGem: boolean = false;
 
-				for (const statKey of cappedStatKeys) {
-					const numExistingOptions = numGemOptionsForStat.get(statKey) || 0;
-
-					if (!gemData.isJC) {
-						numGemOptionsForStat.set(statKey, numExistingOptions + 1);
-					}
-				}
-
-				if ((!gemData.isJC || !foundUncappedJCGem) && !isRedundantGem && (cappedStatKeys.length == 0 || !foundUncappedNormalGem)) {
+				// console.log(gemData.gem.name, [...cappedStatKeys], gemData.isJC, foundUncappedJCGem, cappedStatKeys.length == 0, foundUncappedNormalGem);
+				if ((!gemData.isJC || !foundUncappedJCGem) && (cappedStatKeys.length == 0 || !foundUncappedNormalGem)) {
 					includedGemDataForColor.push(gemData);
 				}
 
@@ -1334,7 +1376,10 @@ export class ReforgeOptimizer {
 		const constraints = new Map<string, Constraint>();
 		const metaGem = gear.getMetaGem();
 		if (metaGem?.id) {
-			const { minBlue, minRed, minYellow } = getMetaGemCondition(metaGem?.id);
+			const { minBlue, minRed, minYellow, compareColorGreater, compareColorLesser } = getMetaGemCondition(metaGem?.id);
+			if (compareColorGreater && compareColorLesser) {
+				constraints.set(`GemColorCompare_${compareColorGreater}_${compareColorLesser}`, greaterEq(2));
+			}
 			if (minBlue) {
 				constraints.set(`GemColor_${GemColor.GemColorBlue}`, greaterEq(minBlue));
 			}
@@ -1392,7 +1437,6 @@ export class ReforgeOptimizer {
 		this.pendingWorker = getReforgeWorkerPool();
 		const solution: LPSolution = await this.pendingWorker.solve(model, {
 			timeout: maxSeconds * 1000,
-			tolerance: 0.005, // unused currently
 		});
 		if (isDevMode()) {
 			console.log('LP solution for this iteration:');

@@ -4,35 +4,37 @@ import (
 	"time"
 
 	"github.com/wowsims/tbc/sim/core"
-	"github.com/wowsims/tbc/sim/core/proto"
 )
 
-func (shaman *Shaman) registerFireElementalTotem(isGuardian bool) {
+func (shaman *Shaman) registerFireElementalTotem() {
 
 	actionID := core.ActionID{SpellID: 2894}
 
-	totalDuration := time.Second * 60
+	totalDuration := time.Second * 120
 
 	fireElementalAura := shaman.RegisterAura(core.Aura{
 		Label:    "Fire Elemental Totem",
 		ActionID: actionID,
 		Duration: totalDuration,
+		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
+			shaman.FireElemental.Disable(sim)
+		},
 	})
 
 	shaman.FireElementalTotem = shaman.RegisterSpell(core.SpellConfig{
 		ActionID:       actionID,
-		Flags:          core.SpellFlagAPL | core.SpellFlagReadinessTrinket,
+		Flags:          core.SpellFlagAPL | SpellFlagInstant,
 		ClassSpellMask: SpellMaskFireElementalTotem,
 		ManaCost: core.ManaCostOptions{
-			BaseCostPercent: 26.9,
+			FlatCost: 680,
 		},
 		Cast: core.CastConfig{
 			DefaultCast: core.Cast{
-				GCD: core.GCDDefault,
+				GCD: time.Second * 1,
 			},
 			CD: core.Cooldown{
 				Timer:    shaman.NewTimer(),
-				Duration: time.Minute * 5,
+				Duration: time.Minute * 20,
 			},
 			SharedCD: core.Cooldown{
 				Timer:    shaman.GetOrInitTimer(&shaman.ElementalSharedCDTimer),
@@ -41,15 +43,8 @@ func (shaman *Shaman) registerFireElementalTotem(isGuardian bool) {
 		},
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, _ *core.Spell) {
-			if shaman.Totems.Fire != proto.FireTotem_NoFireTotem {
-				shaman.TotemExpirations[FireTotem] = sim.CurrentTime + fireElementalAura.Duration
-			}
-
-			shaman.MagmaTotem.AOEDot().Deactivate(sim)
-			searingTotemDot := shaman.SearingTotem.Dot(shaman.CurrentTarget)
-			if searingTotemDot != nil {
-				searingTotemDot.Deactivate(sim)
-			}
+			shaman.cancelFireTotems(sim)
+			shaman.TotemExpirations[FireTotem] = sim.CurrentTime + fireElementalAura.Duration
 
 			shaman.FireElemental.Disable(sim)
 			shaman.FireElemental.EnableWithTimeout(sim, shaman.FireElemental, fireElementalAura.Duration)
@@ -63,5 +58,9 @@ func (shaman *Shaman) registerFireElementalTotem(isGuardian bool) {
 	shaman.AddMajorCooldown(core.MajorCooldown{
 		Spell: shaman.FireElementalTotem,
 		Type:  core.CooldownTypeDPS,
+		ShouldActivate: func(sim *core.Simulation, character *core.Character) bool {
+			// Fele should only be cast by manual APL intervention
+			return false
+		},
 	})
 }

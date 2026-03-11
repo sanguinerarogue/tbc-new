@@ -49,6 +49,7 @@ type ProcTrigger struct {
 	Handler            ProcHandler
 	TriggerImmediately bool // If false (default), the handler will be called one spell batch window later for improved realism.
 	ClassSpellMask     int64
+	ClassSpellsOnly    bool // Corresponds to the Only Proc From Class Abilities flag, e.g. https://www.wowhead.com/tbc/spell=32106/lesser-spell-blasting
 	ExtraCondition     ProcExtraCondition
 }
 
@@ -100,6 +101,9 @@ func (procAura *Aura) AttachProcTriggerCallback(unit *Unit, config ProcTrigger) 
 			return
 		}
 		if config.ClassSpellMask > 0 && config.ClassSpellMask&spell.ClassSpellMask == 0 {
+			return
+		}
+		if config.ClassSpellsOnly && spell.ClassSpellMask == 0 {
 			return
 		}
 		if config.ProcMaskExclude != ProcMaskUnknown && spell.ProcMask.Matches(config.ProcMaskExclude) {
@@ -604,6 +608,27 @@ func (parentAura *Aura) AttachDDBC(index int, maxIndex int, attackTables *[]*Att
 		EnableDamageDoneByCaster(index, maxIndex, (*attackTables)[parentAura.Unit.UnitIndex], handler)
 	}
 
+	return parentAura
+}
+
+func (parentAura *Aura) AttachPeriodicAction(config PeriodicActionOptions) *Aura {
+	var pa *PendingAction
+	tickImmediately := config.TickImmediately
+	config.TickImmediately = false
+	parentAura.ApplyOnGain(func(_ *Aura, sim *Simulation) {
+		if pa == nil {
+			pa = NewPeriodicAction(sim, config)
+		}
+		pa.cancelled = false
+		pa.NextActionAt = sim.CurrentTime + TernaryDuration(tickImmediately, 0, config.Period)
+		sim.AddPendingAction(pa)
+	})
+	parentAura.ApplyOnExpire(func(_ *Aura, sim *Simulation) {
+		pa.Cancel(sim)
+	})
+	if parentAura.IsActive() {
+		panic("Can't attach a periodic action to an active aura.")
+	}
 	return parentAura
 }
 
