@@ -216,7 +216,12 @@ func (mage *Mage) registerArcaneInstability() {
 		Kind:       core.SpellMod_BonusCrit_Percent,
 	})
 
-	mage.MultiplyStat(stats.SpellDamage, 1+(.01*float64(mage.Talents.ArcaneInstability)))
+	mage.AddStaticMod(core.SpellModConfig{
+		ClassMask:  MageSpellsAll,
+		FloatValue: 1 + (0.01 * float64(mage.Talents.ArcaneInstability)),
+		Kind:       core.SpellMod_DamageDone_Pct,
+	})
+
 }
 
 func (mage *Mage) registerEmpoweredArcaneMissiles() {
@@ -375,7 +380,7 @@ func (mage *Mage) registerPlayingWithFire() {
 	}
 
 	mage.AddStaticMod(core.SpellModConfig{
-		ProcMask:   core.ProcMaskSpellDamage,
+		ClassMask:  MageSpellsAll,
 		FloatValue: .01 * float64(mage.Talents.PlayingWithFire),
 		Kind:       core.SpellMod_DamageDone_Pct,
 	})
@@ -401,7 +406,7 @@ func (mage *Mage) registerFirePower() {
 	mage.AddStaticMod(core.SpellModConfig{
 		School:     core.SpellSchoolFire,
 		FloatValue: .02 * float64(mage.Talents.FirePower),
-		Kind:       core.SpellMod_DamageDone_Pct,
+		Kind:       core.SpellMod_DamageDone_Flat,
 	})
 }
 
@@ -521,7 +526,7 @@ func (mage *Mage) registerPiercingIce() {
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellFrost,
 		FloatValue: .02 * float64(mage.Talents.PiercingIce),
-		Kind:       core.SpellMod_DamageDone_Pct,
+		Kind:       core.SpellMod_DamageDone_Flat,
 	})
 }
 
@@ -552,7 +557,7 @@ func (mage *Mage) registerImprovedConeOfCold() {
 	mage.AddStaticMod(core.SpellModConfig{
 		ClassMask:  MageSpellConeOfCold,
 		FloatValue: .15 + (.10 * (float64(mage.Talents.ImprovedConeOfCold) - 1)),
-		Kind:       core.SpellMod_DamageDone_Pct,
+		Kind:       core.SpellMod_DamageDone_Flat,
 	})
 }
 
