@@ -152,13 +152,13 @@ func (rogue *Rogue) registerColdBlood() {
 		Duration: core.NeverExpires,
 
 		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
-			if spell.Matches(RogueSpellCanCrit) {
+			if spell.Matches(RogueSpellActives) {
 				aura.Deactivate(sim)
 			}
 		},
 	}).AttachSpellMod(core.SpellModConfig{
 		Kind:       core.SpellMod_BonusCrit_Percent,
-		ClassMask:  RogueSpellCanCrit,
+		ClassMask:  RogueSpellActives,
 		FloatValue: 100.0,
 	})
 

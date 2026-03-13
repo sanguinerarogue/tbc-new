@@ -304,5 +304,4 @@ const (
 	RogueSpellLethality      = RogueSpellSinisterStrike | RogueSpellGouge | RogueSpellBackstab | RogueSpellGhostlyStrike | RogueSpellMutilateHit | RogueSpellShiv | RogueSpellHemorrhage
 	RogueSpellDirectFinisher = RogueSpellEnvenom | RogueSpellEviscerate
 	RogueSpellFinisher       = RogueSpellDirectFinisher | RogueSpellSliceAndDice | RogueSpellRupture | RogueSpellExposeArmor
-	RogueSpellCanCrit        = RogueSpellLethality | RogueSpellDirectFinisher
 )
