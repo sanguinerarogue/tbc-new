@@ -111,8 +111,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-ArcanoweaveVestments"
  value: {
-  dps: 1598.32933
-  tps: 1054.79236
+  dps: 1600.44595
+  tps: 1056.57786
  }
 }
 dps_results: {
@@ -293,8 +293,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-CircletofArcaneMight-24123"
  value: {
-  dps: 1637.14533
-  tps: 1061.87634
+  dps: 1636.33365
+  tps: 1061.30333
  }
 }
 dps_results: {
@@ -321,8 +321,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-CorruptorRaiment"
  value: {
-  dps: 1680.86256
-  tps: 1086.3938
+  dps: 1680.70829
+  tps: 1086.4561
  }
 }
 dps_results: {
@@ -594,8 +594,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-ImbuedNetherweave"
  value: {
-  dps: 1622.7856
-  tps: 1063.89881
+  dps: 1637.66742
+  tps: 1076.14386
  }
 }
 dps_results: {
@@ -643,8 +643,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-Mana-EtchedRegalia"
  value: {
-  dps: 1504.0177
-  tps: 976.71665
+  dps: 1503.30743
+  tps: 976.25729
  }
 }
 dps_results: {
@@ -685,15 +685,15 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-NetherweaveVestments"
  value: {
-  dps: 1488.54041
-  tps: 963.25492
+  dps: 1486.69876
+  tps: 961.77443
  }
 }
 dps_results: {
  key: "TestAffliction-AllItems-OblivionRaiment"
  value: {
-  dps: 1488.33621
-  tps: 962.62951
+  dps: 1487.56746
+  tps: 962.12795
  }
 }
 dps_results: {
@@ -713,8 +713,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-PrimalMooncloth"
  value: {
-  dps: 1683.68948
-  tps: 1110.14263
+  dps: 1682.76618
+  tps: 1109.59124
  }
 }
 dps_results: {
@@ -839,15 +839,15 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-SoulclothEmbrace"
  value: {
-  dps: 1561.55153
-  tps: 1024.87053
+  dps: 1560.04982
+  tps: 1024.12168
  }
 }
 dps_results: {
  key: "TestAffliction-AllItems-SpellstrikeInfusion"
  value: {
-  dps: 1662.28175
-  tps: 1087.76567
+  dps: 1661.01188
+  tps: 1086.04605
  }
 }
 dps_results: {
@@ -1008,8 +1008,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-VoidheartRaiment"
  value: {
-  dps: 1622.29603
-  tps: 1059.81216
+  dps: 1620.48509
+  tps: 1058.50273
  }
 }
 dps_results: {
@@ -1022,8 +1022,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-WhitemendWisdom"
  value: {
-  dps: 1549.20799
-  tps: 997.5999
+  dps: 1551.01496
+  tps: 999.10072
  }
 }
 dps_results: {
@@ -1036,8 +1036,8 @@ dps_results: {
 dps_results: {
  key: "TestAffliction-AllItems-WrathofSpellfire"
  value: {
-  dps: 1623.07867
-  tps: 1062.10237
+  dps: 1615.53547
+  tps: 1056.26785
  }
 }
 dps_results: {

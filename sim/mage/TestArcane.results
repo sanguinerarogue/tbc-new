@@ -76,8 +76,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-AldorRegalia"
  value: {
-  dps: 1692.2482
-  tps: 1154.85652
+  dps: 1694.18382
+  tps: 1157.92246
  }
 }
 dps_results: {
@@ -587,8 +587,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-ImbuedNetherweave"
  value: {
-  dps: 1723.89928
-  tps: 1189.88496
+  dps: 1723.6545
+  tps: 1189.93302
  }
 }
 dps_results: {
@@ -629,15 +629,15 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-Mana-EtchedRegalia"
  value: {
-  dps: 1546.674
-  tps: 1068.99569
+  dps: 1547.50719
+  tps: 1070.43341
  }
 }
 dps_results: {
  key: "TestArcane-AllItems-MasqueradeGown-28578"
  value: {
-  dps: 1833.11579
-  tps: 1250.12093
+  dps: 1830.81893
+  tps: 1246.45425
  }
 }
 dps_results: {
@@ -692,8 +692,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-PrimalMooncloth"
  value: {
-  dps: 1768.41225
-  tps: 1210.63126
+  dps: 1775.36182
+  tps: 1217.32878
  }
 }
 dps_results: {
@@ -734,8 +734,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-RobeoftheElderScribes-28602"
  value: {
-  dps: 1863.08638
-  tps: 1271.88685
+  dps: 1868.57447
+  tps: 1276.3452
  }
 }
 dps_results: {
@@ -790,8 +790,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-Shadow'sEmbrace"
  value: {
-  dps: 1691.76603
-  tps: 1177.54948
+  dps: 1692.83767
+  tps: 1178.65738
  }
 }
 dps_results: {
@@ -825,8 +825,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-SoulclothEmbrace"
  value: {
-  dps: 1671.12446
-  tps: 1151.0092
+  dps: 1668.46424
+  tps: 1148.94038
  }
 }
 dps_results: {
@@ -952,8 +952,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-TirisfalRegalia"
  value: {
-  dps: 1916.95064
-  tps: 1315.96529
+  dps: 1914.21371
+  tps: 1313.86719
  }
 }
 dps_results: {
@@ -1008,8 +1008,8 @@ dps_results: {
 dps_results: {
  key: "TestArcane-AllItems-WrathofSpellfire"
  value: {
-  dps: 1810.51289
-  tps: 1238.67842
+  dps: 1815.43502
+  tps: 1245.16662
  }
 }
 dps_results: {
