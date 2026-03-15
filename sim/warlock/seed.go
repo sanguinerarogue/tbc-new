@@ -26,13 +26,13 @@ func (warlock *Warlock) registerSeed() {
 		ActionID:       actionID.WithTag(2), // actually 27285
 		SpellSchool:    core.SpellSchoolShadow,
 		ProcMask:       core.ProcMaskSpellDamage,
-		Flags:          core.SpellFlagPassiveSpell,
+		Flags:          core.SpellFlagPassiveSpell | core.SpellFlagIgnoreAttackerModifiers,
 		ClassSpellMask: WarlockSpellSeedOfCorruptionExplosion,
 
 		DamageMultiplier: 1,
 		CritMultiplier:   warlock.DefaultSpellCritMultiplier(),
 		ThreatMultiplier: 1,
-		BonusCoefficient: seedExplosionCoeff,
+		BonusCoefficient: 0,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
 			targetCount := sim.Environment.ActiveTargetCount()
@@ -42,11 +42,12 @@ func (warlock *Warlock) registerSeed() {
 
 			nextTarget := sim.Environment.NextActiveTargetUnit(target)
 			maxHits := 0
-			results := make([]*core.SpellResult, 0)
+			hitResults := make([]*core.SpellResult, 0)
+			damageResults := make([]*core.SpellResult, 0)
 
 			for range targetCount - 1 {
 				result := spell.CalcOutcome(sim, nextTarget, spell.OutcomeMagicHitNoHitCounter)
-				results = append(results, result)
+				hitResults = append(hitResults, result)
 				if result.Landed() {
 					maxHits++
 				}
@@ -54,8 +55,19 @@ func (warlock *Warlock) registerSeed() {
 			}
 
 			maxDamagePerMob := 13580 / float64(maxHits+1)
-			for _, result := range results {
-				spell.CalcAndDealDamage(sim, result.Target, min(maxDamagePerMob, warlock.CalcAndRollDamageRange(sim, 1110, 1290)+warlock.SeedOfCorruptionBonusDamage), core.Ternary(result.Landed(), spell.OutcomeMagicCrit, spell.OutcomeAlwaysMiss))
+			for _, result := range hitResults {
+				spell.Flags ^= core.SpellFlagIgnoreAttackerModifiers
+				attackTable := spell.Unit.AttackTables[target.UnitIndex]
+				baseDamage := warlock.CalcAndRollDamageRange(sim, 1110, 1290) + warlock.SeedOfCorruptionBonusDamage
+				baseDamage += seedPopCoeff * spell.BonusDamage(attackTable)
+				attackerMultiplier := spell.AttackerDamageMultiplier(attackTable, false)
+				baseDamage *= attackerMultiplier
+				spell.Flags |= core.SpellFlagIgnoreAttackerModifiers
+				damageResults = append(damageResults, spell.CalcDamage(sim, result.Target, min(maxDamagePerMob, baseDamage), core.Ternary(result.Landed(), spell.OutcomeMagicCrit, spell.OutcomeAlwaysMiss)))
+			}
+
+			for _, result := range damageResults {
+				spell.DealDamage(sim, result)
 			}
 		},
 	})
