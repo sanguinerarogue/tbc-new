@@ -8,7 +8,9 @@ import (
 )
 
 const seedTickCoeff = 0.25
-const seedExploCoeff = 0.143
+const seedPopCoeff = 0.214
+const seedExplosionCoeff = 0.143
+const seedTriggerBaseDamage = 1044.0
 
 func (warlock *Warlock) registerSeed() {
 	actionID := core.ActionID{SpellID: 27243}
@@ -17,9 +19,9 @@ func (warlock *Warlock) registerSeed() {
 		isSoulBurn  bool
 	}
 	seedPropertyTracker := make([]seedOptions, len(warlock.Env.AllUnits))
-
+	var spell *core.Spell
 	seedExplosion := warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       actionID.WithTag(1), // actually 27285
+		ActionID:       actionID.WithTag(2), // actually 27285
 		SpellSchool:    core.SpellSchoolShadow,
 		ProcMask:       core.ProcMaskSpellDamage,
 		Flags:          core.SpellFlagPassiveSpell,
@@ -28,43 +30,45 @@ func (warlock *Warlock) registerSeed() {
 		DamageMultiplier: 1,
 		CritMultiplier:   warlock.DefaultSpellCritMultiplier(),
 		ThreatMultiplier: 1,
-		BonusCoefficient: seedExploCoeff,
+		BonusCoefficient: seedExplosionCoeff,
 
 		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
-			baseDmg := warlock.CalcAndRollDamageRange(sim, 1110, 1290)
-			for _, aoeTarget := range sim.Encounter.ActiveTargetUnits {
-				spell.CalcAndDealDamage(sim, aoeTarget, baseDmg, spell.OutcomeMagicHitAndCrit)
+			targetCount := sim.Environment.ActiveTargetCount()
+			if targetCount < 2 {
+				return
+			}
+			nextTarget := sim.Environment.NextActiveTargetUnit(target)
+			maxHits := 0
+
+			results := make([]*core.SpellResult, maxHits)
+			for range targetCount - 1 {
+				result := spell.CalcOutcome(sim, nextTarget, spell.OutcomeMagicHitNoHitCounter)
+				if result.Landed() {
+					maxHits++
+				}
+				results = append(results, result)
+				nextTarget = sim.Environment.NextActiveTargetUnit(nextTarget)
+			}
+
+			totalDamage := min(13580, warlock.CalcAndRollDamageRange(sim, 1110, 1290)*float64(maxHits+1))
+			damagePerMob := totalDamage / float64(maxHits+1)
+			for _, result := range results {
+				spell.CalcAndDealDamage(sim, result.Target, damagePerMob, core.Ternary(result.Landed(), spell.OutcomeMagicCrit, spell.OutcomeAlwaysMiss))
 			}
 		},
 	})
 
 	trySeedPop := func(sim *core.Simulation, target *core.Unit, dmg float64) {
 		seedPropertyTracker[target.UnitIndex].damageTaken += dmg
-		seedThreshold := 1044.0 + (warlock.GetStat(stats.SpellDamage) + warlock.GetStat(stats.ShadowDamage)*0.143)
+		seedThreshold := seedTriggerBaseDamage + (warlock.GetStat(stats.SpellDamage) + warlock.GetStat(stats.ShadowDamage)*seedPopCoeff)
 		if seedPropertyTracker[target.UnitIndex].damageTaken >= seedThreshold {
-			warlock.Seed.Dot(target).Deactivate(sim)
+			spell.Dot(target).Deactivate(sim)
 			seedExplosion.Cast(sim, target)
 		}
 	}
 
-	warlock.Seed = warlock.RegisterSpell(core.SpellConfig{
-		ActionID:       actionID,
-		SpellSchool:    core.SpellSchoolShadow,
-		ProcMask:       core.ProcMaskSpellDamage,
-		Flags:          core.SpellFlagAPL,
-		MissileSpeed:   28,
-		ClassSpellMask: WarlockSpellSeedOfCorruption,
-
-		ManaCost: core.ManaCostOptions{BaseCostPercent: 6},
-		Cast: core.CastConfig{
-			DefaultCast: core.Cast{
-				GCD:      core.GCDDefault,
-				CastTime: 2000 * time.Millisecond,
-			},
-		},
-
-		DamageMultiplier: 1,
-		ThreatMultiplier: 1,
+	spell = warlock.RegisterSpell(getSeedSpellConfig(core.SpellConfig{
+		ActionID: actionID,
 
 		Dot: core.DotConfig{
 			Aura: core.Aura{
@@ -95,7 +99,7 @@ func (warlock *Warlock) registerSeed() {
 			BonusCoefficient: seedTickCoeff,
 
 			OnSnapshot: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
-				dot.Snapshot(target, 174)
+				dot.Snapshot(target, seedTriggerBaseDamage/float64(dot.BaseTickCount))
 			},
 			OnTick: func(sim *core.Simulation, target *core.Unit, dot *core.Dot) {
 				result := dot.CalcAndDealPeriodicSnapshotDamage(sim, target, dot.OutcomeTick)
@@ -107,13 +111,48 @@ func (warlock *Warlock) registerSeed() {
 			result := spell.CalcOutcome(sim, target, spell.OutcomeMagicHit)
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				if result.Landed() {
-					if warlock.Options.DetonateSeed {
-						seedExplosion.Cast(sim, target)
-					} else {
-						spell.Dot(target).Apply(sim)
-					}
+					spell.Dot(target).Apply(sim)
 				}
 			})
 		},
-	})
+	}))
+
+	// Instant seed
+	warlock.RegisterSpell(getSeedSpellConfig(core.SpellConfig{
+		ActionID: actionID.WithTag(1),
+		ApplyEffects: func(sim *core.Simulation, target *core.Unit, spell *core.Spell) {
+			result := spell.CalcOutcome(sim, target, spell.OutcomeMagicHit)
+			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
+				if result.Landed() {
+					seedExplosion.Cast(sim, target)
+				}
+			})
+		},
+	}))
+}
+
+func getSeedSpellConfig(config core.SpellConfig) core.SpellConfig {
+	return core.SpellConfig{
+		ActionID:       config.ActionID,
+		SpellSchool:    core.SpellSchoolShadow,
+		ProcMask:       core.ProcMaskSpellDamage,
+		Flags:          core.SpellFlagAPL,
+		MissileSpeed:   28,
+		ClassSpellMask: WarlockSpellSeedOfCorruption,
+
+		ManaCost: core.ManaCostOptions{BaseCostPercent: 6},
+		Cast: core.CastConfig{
+			DefaultCast: core.Cast{
+				GCD:      core.GCDDefault,
+				CastTime: 2000 * time.Millisecond,
+			},
+		},
+
+		DamageMultiplier: 1,
+		ThreatMultiplier: 1,
+
+		Dot: config.Dot,
+
+		ApplyEffects: config.ApplyEffects,
+	}
 }

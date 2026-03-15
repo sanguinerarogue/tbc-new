@@ -20,7 +20,6 @@ type Warlock struct {
 	Immolate    *core.Spell
 	Incinerate  *core.Spell
 	SearingPain *core.Spell
-	Seed        *core.Spell
 	ShadowBolt  *core.Spell
 	Soulfire    *core.Spell
 

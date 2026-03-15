@@ -36,17 +36,16 @@ func (warlock *Warlock) registerShadowBolt() {
 			result := spell.CalcDamage(sim, target, dmgRoll, spell.OutcomeMagicHitAndCrit)
 			existingAura := target.GetAurasWithTag("ImprovedShadowBolt")
 
-			if len(existingAura) == 0 || existingAura[0].Duration != core.NeverExpires {
-				if result.Landed() && result.Outcome.Matches(core.OutcomeCrit) && warlock.Talents.ImprovedShadowBolt > 0 {
-					if !warlock.ImpShadowboltAura.IsActive() {
-						warlock.ImpShadowboltAura.Activate(sim)
-					}
-					warlock.ImpShadowboltAura.SetStacks(sim, 4)
-				}
-			}
-
 			spell.WaitTravelTime(sim, func(sim *core.Simulation) {
 				spell.DealDamage(sim, result)
+				if len(existingAura) == 0 || existingAura[0].Duration != core.NeverExpires {
+					if result.Landed() && result.Outcome.Matches(core.OutcomeCrit) && warlock.Talents.ImprovedShadowBolt > 0 {
+						if !warlock.ImpShadowboltAura.IsActive() {
+							warlock.ImpShadowboltAura.Activate(sim)
+						}
+						warlock.ImpShadowboltAura.SetStacks(sim, 4)
+					}
+				}
 			})
 		},
 	})

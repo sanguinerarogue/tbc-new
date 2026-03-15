@@ -524,6 +524,8 @@ export class ActionId {
 				if (tag == 0) {
 					name += ' (DoT)';
 				} else if (tag == 1) {
+					name += ' (Instant)';
+				} else if (tag == 2) {
 					name += ' (Explosion)';
 				}
 				break;
