@@ -391,8 +391,8 @@ dps_results: {
 dps_results: {
  key: "TestDestruction-AllItems-Despair-28573"
  value: {
-  dps: 2086.2959
-  tps: 1813.46476
+  dps: 2084.71296
+  tps: 1812.04413
  }
 }
 dps_results: {
