@@ -57,7 +57,7 @@ func (warlock *Warlock) registerSeed() {
 			for _, result := range results {
 				attackTable := spell.Unit.AttackTables[target.UnitIndex]
 				baseDamage := warlock.CalcAndRollDamageRange(sim, 1110, 1290) + warlock.SeedOfCorruptionBonusDamage
-				baseDamage += seedExplosionCoeff * spell.BonusDamage(attackTable)
+				baseDamage += seedPopCoeff * spell.BonusDamage(attackTable)
 				attackerMultiplier := spell.AttackerDamageMultiplier(attackTable, false)
 				baseDamage *= attackerMultiplier
 				spell.CalcAndDealDamage(sim, result.Target, min(maxDamagePerMob, baseDamage), core.Ternary(result.Landed(), spell.OutcomeMagicCrit, spell.OutcomeAlwaysMiss))
