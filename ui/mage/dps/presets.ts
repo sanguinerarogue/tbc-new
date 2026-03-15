@@ -73,7 +73,6 @@ export const DefaultConsumables = ConsumesSpec.create({
 	foodId: 27657, // Blackened Basilisk
 	mhImbueId: 25122, // Brilliant Wizard Oil
 	potId: 22839, // Destruction Potion
-	conjuredId: 12662, // Demonic Rune
 	drumsId: 351355, // Greater Drums of Battle
 });
 

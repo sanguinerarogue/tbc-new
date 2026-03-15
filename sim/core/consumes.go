@@ -393,7 +393,7 @@ func registerConjuredCD(agent Agent, consumes *proto.ConsumesSpec) {
 			Cast: CastConfig{
 				CD: Cooldown{
 					Timer:    character.GetConjuredCD(),
-					Duration: time.Minute * 15,
+					Duration: time.Minute * 2,
 				},
 			},
 			ApplyEffects: func(sim *Simulation, _ *Unit, _ *Spell) {
