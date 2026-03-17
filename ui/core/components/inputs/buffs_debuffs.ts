@@ -1,4 +1,4 @@
-import { Drums, Race, Stat, TristateEffect } from '../../proto/common';
+import { Drums, Race, Stat } from '../../proto/common';
 import { ActionId } from '../../proto_utils/action_id';
 import {
 	makeBooleanDebuffInput,
@@ -17,7 +17,6 @@ import {
 import { IconPicker } from '../pickers/icon_picker';
 import { IconPickerStatOption, PickerStatOptions } from './stat_options';
 import { Party } from '../../party';
-import { NumberPicker } from '../pickers/number_picker';
 
 ///////////////////////////////////////////////////////////////////////////
 //                                 RAID BUFFS
