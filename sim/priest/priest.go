@@ -184,7 +184,6 @@ const (
 	PriestSpellShadowFiend
 	PriestSpellVampiricEmbrace
 	PriestSpellVampiricTouch
-	PriestSpellShadowWeaving
 	PriestSpellFade
 	PriestSpellSmite
 
