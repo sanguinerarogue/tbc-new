@@ -56,6 +56,10 @@ func (hunter *Hunter) ApplyTalents() {
 	hunter.registerExposeWeakness()
 	hunter.registerMasterTactician()
 	hunter.registerReadiness()
+
+	if hunter.Pet != nil {
+		hunter.Pet.ApplyTalents()
+	}
 }
 
 func (hunter *Hunter) registerImprovedAspectOfTheHawk() {

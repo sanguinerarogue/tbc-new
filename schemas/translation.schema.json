@@ -535,6 +535,9 @@
 						"cast_speed_multiplier": {
 							"type": "string"
 						},
+						"spell_hit": {
+							"type": "string"
+						},
 						"arcane_hit": {
 							"type": "string"
 						},
@@ -551,9 +554,6 @@
 							"type": "string"
 						},
 						"shadow_hit": {
-							"type": "string"
-						},
-						"spell_hit": {
 							"type": "string"
 						},
 						"spell_crit": {
@@ -699,18 +699,20 @@
 						"melee_speed_multiplier",
 						"ranged_speed_multiplier",
 						"cast_speed_multiplier",
+						"spell_hit",
 						"arcane_hit",
 						"fire_hit",
 						"frost_hit",
 						"holy_hit",
 						"nature_hit",
 						"shadow_hit",
-						"spell_hit",
 						"spell_crit",
 						"spell_haste",
 						"melee_hit",
 						"melee_crit",
 						"melee_haste",
+						"ranged_hit",
+						"ranged_crit",
 						"ranged_haste",
 						"healing_power",
 						"spell_damage",
@@ -2135,6 +2137,19 @@
 							},
 							"additionalProperties": false,
 							"required": ["label", "tooltip"]
+						},
+						"warlock_assigned_curse": {
+							"type": "object",
+							"properties": {
+								"title": {
+									"type": "string"
+								},
+								"description": {
+									"type": "string"
+								}
+							},
+							"additionalProperties": false,
+							"required": ["title", "description"]
 						}
 					},
 					"additionalProperties": false,
@@ -2178,7 +2193,8 @@
 						"enable_item_swap",
 						"item_swap",
 						"blessings",
-						"shaman_shield_procrate"
+						"shaman_shield_procrate",
+						"warlock_assigned_curse"
 					]
 				},
 				"consumables": {
@@ -5792,6 +5808,9 @@
 								"cooldowns": {
 									"type": "string"
 								},
+								"potions": {
+									"type": "string"
+								},
 								"placeholders": {
 									"type": "string"
 								}
@@ -5828,6 +5847,7 @@
 								"combo_points",
 								"eclipse",
 								"cooldowns",
+								"potions",
 								"placeholders"
 							]
 						},

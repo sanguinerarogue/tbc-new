@@ -504,6 +504,11 @@ export class ActionId {
 					name += ' (Normalized)';
 				}
 				break;
+			case 'Sunder Armor':
+				if (tag == 1) {
+					name += ' (Devastate)';
+				}
+				break;
 			case 'Improved Berserker Rage':
 			case 'Improved Overpower':
 				name += ` (${tag}/2)`;
@@ -551,6 +556,10 @@ export class ActionId {
 			case 'Shadow Word: Death':
 				if (tag == 1) {
 					name += ' (No Orb)';
+				}
+			case 'Shadowfiend':
+				if (tag == 1) {
+					name += ' (Mana Restore)';
 				}
 			case 'Steady Focus':
 				if (tag == 2) {

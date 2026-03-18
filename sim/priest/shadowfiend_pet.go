@@ -32,11 +32,12 @@ func (priest *Priest) NewShadowfiend() *Shadowfiend {
 		Priest: priest,
 	}
 
-	manaMetric := priest.NewManaMetrics(core.ActionID{SpellID: 34433})
-	shadowfiend.ManaRestoreAura = shadowfiend.GetOrRegisterAura(core.Aura{
-		Label:    "Shadowfiend Mana Restore",
+	manaMetric := priest.NewManaMetrics(core.ActionID{SpellID: 34433}.WithTag(1))
+	shadowfiend.ManaRestoreAura = shadowfiend.MakeProcTriggerAura(core.ProcTrigger{
+		Name:     "Shadowfiend Mana Restore",
 		Duration: core.NeverExpires,
-		OnSpellHitDealt: func(aura *core.Aura, sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
+		Callback: core.CallbackOnSpellHitDealt,
+		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			priest.AddMana(sim, result.Damage*2.5, manaMetric)
 		},
 	})
@@ -56,6 +57,14 @@ func (priest *Priest) NewShadowfiend() *Shadowfiend {
 
 	shadowfiend.AutoAttacks.MHConfig().BonusCoefficient = 1.0
 	priest.AddPet(shadowfiend)
+
+	shadowfiend.OnPetEnable = func(sim *core.Simulation) {
+		shadowfiend.ManaRestoreAura.Activate(sim)
+	}
+
+	shadowfiend.OnPetDisable = func(sim *core.Simulation) {
+		shadowfiend.ManaRestoreAura.Deactivate(sim)
+	}
 
 	return shadowfiend
 }
@@ -80,15 +89,6 @@ func (shadowfiend *Shadowfiend) Reset(sim *core.Simulation) {
 }
 
 func (shadowfiend *Shadowfiend) OnEncounterStart(_ *core.Simulation) {
-}
-func (shadowfiend *Shadowfiend) OnPetEnable(sim *core.Simulation) {
-	shadowfiend.ManaRestoreAura.Activate(sim)
-}
-
-func (shadowfiend *Shadowfiend) OnPetDisable(sim *core.Simulation) {
-	if shadowfiend.ManaRestoreAura.IsActive() {
-		shadowfiend.ManaRestoreAura.Deactivate(sim)
-	}
 }
 
 func (shadowfiend *Shadowfiend) GetPet() *core.Pet {

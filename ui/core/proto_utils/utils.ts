@@ -1226,13 +1226,12 @@ export function enchantAppliesToItem(enchant: Enchant, item: Item): boolean {
 	return true;
 }
 
-export function canEquipEnchant<SpecType extends Spec>(enchant: Enchant, playerSpec: PlayerSpec<SpecType>): boolean {
-	if (enchant.classAllowlist.length > 0 && !enchant.classAllowlist.includes(playerSpec.classID)) {
+export function canEquipEnchant<SpecType extends Spec>(enchant: Enchant, player: Player<SpecType>): boolean {
+	if (enchant.classAllowlist.length > 0 && !enchant.classAllowlist.includes(player.playerSpec.classID)) {
 		return false;
 	}
-
-	// This is a Tinker and we handle them differently
-	if (enchant.requiredProfession == Profession.Engineering) {
+	// This is a enchant requires Enchanting
+	if (enchant.requiredProfession == Profession.Enchanting && !player.hasProfession(Profession.Enchanting)) {
 		return false;
 	}
 
@@ -1318,7 +1317,12 @@ export const extendPlayerProtoWithMissingEffects = (playerProto: PlayerProto, db
 	const newSpellEffects: SpellEffect[] = [];
 	const seenConsumableIds = new Set<number>();
 	const seenEffectIds = new Set<number>();
-	Object.values(playerProto.consumables ?? []).forEach((cid: number) => {
+
+	const { potions = [], ...consumables } = playerProto.consumables || {};
+	const consumeableIds = Object.values(consumables).filter((c): c is number => typeof c === 'number');
+	const allConsumables = [...potions, ...consumeableIds];
+
+	allConsumables.forEach((cid: number) => {
 		if (!cid || seenConsumableIds.has(cid)) return;
 		const consume = db.getConsumable(cid);
 		if (!consume) return;

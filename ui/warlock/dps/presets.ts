@@ -195,10 +195,7 @@ export const P1_AFFLICTION_DEFAULT_SETTINGS: PresetUtils.PresetSettings = {
 			sacrificeSummon: false,
 		},
 	}),
-	debuffs: Debuffs.create({
-		...DefaultDebuffs,
-		curseOfElements: TristateEffect.TristateEffectMissing,
-	}),
+	debuffs: DefaultDebuffs,
 };
 
 export const P1_DEMONOLOGY_DEFAULT_SETTINGS: PresetUtils.PresetSettings = {
@@ -213,10 +210,7 @@ export const P1_DEMONOLOGY_DEFAULT_SETTINGS: PresetUtils.PresetSettings = {
 			sacrificeSummon: false,
 		},
 	}),
-	debuffs: Debuffs.create({
-		...DefaultDebuffs,
-		curseOfRecklessness: false,
-	}),
+	debuffs: DefaultDebuffs,
 };
 
 export const P1_FIRE_DEFAULT_SETTINGS: PresetUtils.PresetSettings = {
@@ -237,7 +231,6 @@ export const P1_FIRE_DEFAULT_SETTINGS: PresetUtils.PresetSettings = {
 	debuffs: Debuffs.create({
 		...DefaultDebuffs,
 		improvedScorch: true,
-		curseOfRecklessness: false,
 	}),
 };
 

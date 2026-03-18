@@ -235,13 +235,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestElemental-AllItems-Biznicks247x128Accurascope-2523"
- value: {
-  dps: 1751.04336
-  tps: 1356.4669
- }
-}
-dps_results: {
  key: "TestElemental-AllItems-BlackenedNaaruSliver-34427"
  value: {
   dps: 1672.53431
@@ -1027,6 +1020,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestElemental-AllItems-StabilizedEterniumScope-2523"
+ value: {
+  dps: 1751.04336
+  tps: 1356.4669
+ }
+}
+dps_results: {
  key: "TestElemental-AllItems-Starkiller'sBauble-30340"
  value: {
   dps: 1688.38449
@@ -1220,6 +1220,13 @@ dps_results: {
  value: {
   dps: 1669.56032
   tps: 1294.79582
+ }
+}
+dps_results: {
+ key: "TestElemental-AllItems-WorldBreaker-30090"
+ value: {
+  dps: 1751.04336
+  tps: 1356.4669
  }
 }
 dps_results: {

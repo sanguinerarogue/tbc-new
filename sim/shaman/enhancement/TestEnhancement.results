@@ -235,13 +235,6 @@ dps_results: {
  }
 }
 dps_results: {
- key: "TestEnhancement-AllItems-Biznicks247x128Accurascope-2523"
- value: {
-  dps: 1965.39222
-  tps: 1833.6594
- }
-}
-dps_results: {
  key: "TestEnhancement-AllItems-BlackenedNaaruSliver-34427"
  value: {
   dps: 2087.6616
@@ -524,8 +517,8 @@ dps_results: {
 dps_results: {
  key: "TestEnhancement-AllItems-EyeofMagtheridon-28789"
  value: {
-  dps: 1967.67207
-  tps: 1821.16378
+  dps: 1955.12513
+  tps: 1812.22795
  }
 }
 dps_results: {
@@ -1012,6 +1005,13 @@ dps_results: {
  }
 }
 dps_results: {
+ key: "TestEnhancement-AllItems-StabilizedEterniumScope-2523"
+ value: {
+  dps: 1965.39222
+  tps: 1833.6594
+ }
+}
+dps_results: {
  key: "TestEnhancement-AllItems-Starkiller'sBauble-30340"
  value: {
   dps: 1943.53705
@@ -1212,6 +1212,13 @@ dps_results: {
  value: {
   dps: 1815.95701
   tps: 1668.85955
+ }
+}
+dps_results: {
+ key: "TestEnhancement-AllItems-WorldBreaker-30090"
+ value: {
+  dps: 1965.39222
+  tps: 1833.6594
  }
 }
 dps_results: {

@@ -130,12 +130,17 @@ var PotionAuraTag = "Potion"
 
 func registerPotionCD(agent Agent, consumes *proto.ConsumesSpec) {
 	character := agent.GetCharacter()
-	potion := consumes.PotId
+	defaultPotion := consumes.PotId
 
-	if potion != 0 {
-		potMCD := makePotionActivationSpell(potion, character)
-		potMCD.Spell.Flags |= SpellFlagCombatPotion
-		character.AddMajorCooldown(potMCD)
+	for _, potionId := range consumes.Potions {
+		potion := ConsumablesByID[potionId]
+		if potion.Type == proto.ConsumableType_ConsumableTypePotion {
+			potMCD := makePotionActivationSpell(potion.Id, character)
+			if defaultPotion == potion.Id {
+				potMCD.Spell.Flags |= SpellFlagCombatPotion
+				character.AddMajorCooldown(potMCD)
+			}
+		}
 	}
 }
 
@@ -158,7 +163,7 @@ func makePotionActivationSpell(potionId int32, character *Character) MajorCooldo
 		// Mark as 'Encounter Only' so that users are forced to select the generic Potion
 		// placeholder action instead of specific potion spells, in APL prepull. This
 		// prevents a mismatch between Consumes and Rotation settings.
-		mcd.Spell.Flags |= SpellFlagEncounterOnly | SpellFlagPotion
+		mcd.Spell.Flags |= SpellFlagEncounterOnly | SpellFlagPotion | SpellFlagAPL
 		oldApplyEffects := mcd.Spell.ApplyEffects
 		mcd.Spell.ApplyEffects = func(sim *Simulation, target *Unit, spell *Spell) {
 			oldApplyEffects(sim, target, spell)
@@ -168,8 +173,8 @@ func makePotionActivationSpell(potionId int32, character *Character) MajorCooldo
 			}
 		}
 	}
-	return mcd
 
+	return mcd
 }
 
 type resourceGainConfig struct {

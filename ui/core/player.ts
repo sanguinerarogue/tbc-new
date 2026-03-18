@@ -21,6 +21,7 @@ import {
 import { APLRotation, APLRotation_Type as APLRotationType, SimpleRotation } from './proto/apl';
 import {
 	Class,
+	ConsumableType,
 	ConsumesSpec,
 	Cooldowns,
 	Faction,
@@ -462,7 +463,7 @@ export class Player<SpecType extends Spec> {
 
 	// Returns all enchants that this player can wear in the given slot.
 	getEnchants(slot: ItemSlot): Array<Enchant> {
-		return this.sim.db.getEnchants(slot).filter(enchant => canEquipEnchant(enchant, this.playerSpec));
+		return this.sim.db.getEnchants(slot).filter(enchant => canEquipEnchant(enchant, this));
 	}
 
 	// Returns all gems that this player can wear of the given color.
@@ -657,7 +658,15 @@ export class Player<SpecType extends Spec> {
 		this.buffsChangeEmitter.emit(eventID);
 	}
 
-	getConsumes(): ConsumesSpec {
+	getConsumes(forSimming?: boolean): ConsumesSpec {
+		const epStats = [...(this.specConfig.consumableStats ?? []), ...this.specConfig.epStats];
+		const dbPotions = this.sim.db.getConsumablesByTypeAndStats(ConsumableType.ConsumableTypePotion, epStats);
+		if (forSimming) {
+			return ConsumesSpec.create({
+				...this.consumables,
+				potions: dbPotions.map(p => p.id),
+			});
+		}
 		// Make a defensive copy
 		return ConsumesSpec.clone(this.consumables);
 	}
@@ -1393,7 +1402,7 @@ export class Player<SpecType extends Spec> {
 		}
 		if (exportCategory(SimSettingCategories.Consumes)) {
 			PlayerProto.mergePartial(player, {
-				consumables: this.getConsumes(),
+				consumables: this.getConsumes(forSimming),
 			});
 		}
 		if (exportCategory(SimSettingCategories.Miscellaneous)) {

@@ -386,14 +386,13 @@ func (priest *Priest) applyShadowWeaving() {
 	swAuras := priest.NewEnemyAuraArray(func(target *core.Unit) *core.Aura {
 		return core.ShadowWeavingAura(target)
 	})
-	procChance := 0.20 * float64(priest.Talents.ShadowWeaving)
 
 	priest.MakeProcTriggerAura(core.ProcTrigger{
 		Name:           "Shadow Weaving Trigger",
 		ClassSpellMask: PriestShadowSpells,
 		Callback:       core.CallbackOnSpellHitDealt,
 		Outcome:        core.OutcomeLanded,
-		ProcChance:     procChance,
+		ProcChance:     0.20 * float64(priest.Talents.ShadowWeaving),
 		Handler: func(sim *core.Simulation, spell *core.Spell, result *core.SpellResult) {
 			swAuras.Get(result.Target).Activate(sim)
 			swAuras.Get(result.Target).AddStack(sim)

@@ -584,6 +584,8 @@ message ConsumesSpec {
 	bool pet_scroll_str = 19;
 	bool nightmare_seed = 20;
 	int32 pet_food_id = 21;
+	// Contains all available potions
+	repeated int32 potions = 22;
 }
 
 enum MobType {

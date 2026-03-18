@@ -106,7 +106,7 @@ const SPEC_CONFIG = registerSpecConfig(Spec.SpecPriest, {
 		talents: [Presets.StandardTalents],
 		rotations: [Presets.ROTATION_PRESET_DEFAULT],
 		// Preset gear configurations that the user can quickly select.
-		gear: [Presets.PRE_RAID_PRESET, Presets.P1_PRESET],
+		gear: [Presets.PRE_RAID_PRESET, Presets.P1_PRESET, Presets.P2_PRESET],
 		itemSwaps: [],
 		builds: [],
 	},

@@ -408,6 +408,7 @@ var MapItemIdToPPM = map[int32]float64{
 	31331: 2,   // The Night blade
 	30311: 2,   // Warp Slicer
 	30316: 2,   // Devastation
+	30090: 1,   // World Breaker
 	32505: 1,   // Madness of the Betrayer
 	31859: 1,   // Darkmoon Card: Madness
 }

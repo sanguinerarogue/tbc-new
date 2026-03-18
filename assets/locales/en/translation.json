@@ -612,6 +612,10 @@
 			"shaman_shield_procrate": {
 				"label": "Shield Proc Rate",
 				"tooltip": "Number of proc per minute of the active effect of your Shaman Shield."
+			},
+			"warlock_assigned_curse": {
+				"title": "Assigned Curse",
+				"description": "The selected curse will prevent the selected external debuff from being cast."
 			}
 		},
 		"consumables": {
@@ -1657,6 +1661,7 @@
 				"combo_points": "Combo Points",
 				"eclipse": "Eclipse",
 				"cooldowns": "Cooldowns",
+				"potions": "Potions",
 				"placeholders": "Placeholders"
 			},
 			"item_swap_sets": {
